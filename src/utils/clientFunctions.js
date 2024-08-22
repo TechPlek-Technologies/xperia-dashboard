@@ -29,23 +29,23 @@ export async function getData(url, params = {}) {
   // Retrieve the service token from local storage
   const serviceToken = localStorage.getItem('serviceToken');
 
-  const response = await axios({
-    method: 'get',
-    url,
-    headers: {
-      Authorization: `Bearer ${serviceToken}`
-    },
-    params: params // Add query parameters here
-  })
-    .then((res) => res.data)
-    .catch((error) => {
-      console.log(error.message);
-      const errData = { success: false, err: error.message };
-      return errData;
+  try {
+    const response = await axios({
+      method: 'get',
+      url,
+      headers: {
+        Authorization: `Bearer ${serviceToken}`
+      },
+      params: params // Add query parameters here
     });
 
-  return response;
+    return { success: true, data: response.data };
+  } catch (error) {
+    console.log(error.message);
+    return { success: false, err: error.message };
+  }
 }
+
 
 export async function deleteData(url, params = {}) {
   const axios = (await import('axios')).default;
