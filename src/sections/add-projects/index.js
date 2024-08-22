@@ -37,28 +37,28 @@ const getStepContent = (step, handleNext, handleBack, setErrorIndex, basicInfo, 
 
 // ==============================|| FORMS WIZARD - VALIDATION ||============================== //
 
-const AddServices = ({ serviceTitle, slug, serviceData }) => {
+const AddProjectsSection = ({ slug }) => {
   const [activeStep, setActiveStep] = useState(0);
   const [basicInfo, setBasicInfo] = useState({
-    title: serviceData.title || null,
-    shortDescription: serviceData.shortDescription || null,
-    longDescription: serviceData.longDescription || null,
-    banner: serviceData.banner || null,
-    carousel1: serviceData.carousel1 || null,
-    carousel2: serviceData.carousel2 || null,
-    carousel3: serviceData.carousel3 || null
+    // title: serviceData.title || null,
+    // shortDescription: serviceData.shortDescription || null,
+    // longDescription: serviceData.longDescription || null,
+    // banner: serviceData.banner || null,
+    // carousel1: serviceData.carousel1 || null,
+    // carousel2: serviceData.carousel2 || null,
+    // carousel3: serviceData.carousel3 || null
   });
   const [additionalInfo, setAdditionalInfo] = useState({
-    title1: serviceData.title1 || null,
-    title2: serviceData.title2 || null,
-    title3: serviceData.title3 || null,
-    title4: serviceData.title4 || null,
-    title5: serviceData.title5 || null,
-    content1: serviceData.content1 || null,
-    content2: serviceData.content2 || null,
-    content3: serviceData.content3 || null,
-    content4: serviceData.content4 || null,
-    content5: serviceData.content5 || null
+    // title1: serviceData.title1 || null,
+    // title2: serviceData.title2 || null,
+    // title3: serviceData.title3 || null,
+    // title4: serviceData.title4 || null,
+    // title5: serviceData.title5 || null,
+    // content1: serviceData.content1 || null,
+    // content2: serviceData.content2 || null,
+    // content3: serviceData.content3 || null,
+    // content4: serviceData.content4 || null,
+    // content5: serviceData.content5 || null
   });
   const [errorIndex, setErrorIndex] = useState(null);
 
@@ -91,7 +91,7 @@ const AddServices = ({ serviceTitle, slug, serviceData }) => {
   };
 
   return (
-    <MainCard title={serviceTitle}>
+    <MainCard title={'Add Projects'}>
       <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
         {steps.map((label, index) => {
           const labelProps = {};
@@ -159,9 +159,9 @@ const AddServices = ({ serviceTitle, slug, serviceData }) => {
   );
 };
 
-export default AddServices;
+export default AddProjectsSection;
 
-AddServices.propTypes = {
+AddProjectsSection.propTypes = {
   serviceTitle: PropTypes.string,
   services: PropTypes.string,
   slug: PropTypes.string,

@@ -6,21 +6,13 @@ import { alpha, useTheme } from '@mui/material/styles';
 import { Button, Chip, Stack, Table, TableBody, TableCell, TableHead, TableRow, Tooltip, Typography, useMediaQuery } from '@mui/material';
 
 // third-party
-import { PatternFormat } from 'react-number-format';
 import { useFilters, useExpanded, useGlobalFilter, useRowSelect, useSortBy, useTable, usePagination } from 'react-table';
 
 // project-imports
 import MainCard from 'components/MainCard';
 import ScrollX from 'components/ScrollX';
 import IconButton from 'components/@extended/IconButton';
-import {
-  CSVExport,
-  HeaderSort,
-  IndeterminateCheckbox,
-  SortingSelect,
-  TablePagination,
-  TableRowSelection
-} from 'components/third-party/ReactTable';
+import { HeaderSort, IndeterminateCheckbox, SortingSelect, TablePagination, TableRowSelection } from 'components/third-party/ReactTable';
 
 import CustomerView from 'sections/apps/customer/CustomerView';
 import AlertCustomerDelete from 'sections/apps/customer/AlertCustomerDelete';
@@ -29,7 +21,7 @@ import AlertCustomerDelete from 'sections/apps/customer/AlertCustomerDelete';
 import { renderFilterTypes, GlobalFilter } from 'utils/react-table';
 
 // assets
-import { Add, Edit, Eye, Trash } from 'iconsax-react';
+import { Add, Edit, Trash } from 'iconsax-react';
 import { ThemeMode } from 'config';
 import { getData } from 'utils/clientFunctions';
 import Loader from 'components/Loader';
@@ -59,8 +51,7 @@ function ReactTable({ columns, data, renderRowSubComponent, handleAdd }) {
     state: { globalFilter, selectedRowIds, pageIndex, pageSize, expanded },
     preGlobalFilteredRows,
     setGlobalFilter,
-    setSortBy,
-    selectedFlatRows
+    setSortBy
   } = useTable(
     {
       columns,
@@ -102,7 +93,6 @@ function ReactTable({ columns, data, renderRowSubComponent, handleAdd }) {
             <Button variant="contained" startIcon={<Add />} onClick={handleAdd} size="small">
               Add Project
             </Button>
-            <CSVExport data={selectedFlatRows.length > 0 ? selectedFlatRows.map((d) => d.original) : data} filename={'customer-list.csv'} />
           </Stack>
         </Stack>
         <Table {...getTableProps()}>
@@ -214,9 +204,8 @@ const ProjectPage = () => {
         }
       },
       {
-        Header: 'Contact',
-        accessor: 'contact',
-        Cell: ({ value }) => <PatternFormat displayType="text" format="+1 (###) ###-####" mask="_" defaultValue={value} />
+        Header: 'Category',
+        accessor: 'category'
       },
 
       {
@@ -251,30 +240,8 @@ const ProjectPage = () => {
         className: 'cell-center',
         disableSortBy: true,
         Cell: ({ row }) => {
-          const collapseIcon = row.isExpanded ? <Add style={{ color: theme.palette.error.main, transform: 'rotate(45deg)' }} /> : <Eye />;
           return (
             <Stack direction="row" alignItems="center" justifyContent="center" spacing={0}>
-              <Tooltip
-                componentsProps={{
-                  tooltip: {
-                    sx: {
-                      backgroundColor: mode === ThemeMode.DARK ? theme.palette.grey[50] : theme.palette.grey[700],
-                      opacity: 0.9
-                    }
-                  }
-                }}
-                title="View"
-              >
-                <IconButton
-                  color="secondary"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    row.toggleRowExpanded();
-                  }}
-                >
-                  {collapseIcon}
-                </IconButton>
-              </Tooltip>
               <Tooltip
                 componentsProps={{
                   tooltip: {

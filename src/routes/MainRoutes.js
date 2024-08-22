@@ -9,7 +9,6 @@ import TeamPage from 'pages/team';
 import ProjectPage from 'pages/projects';
 import AddProjects from 'pages/projects/add-project';
 import ServicesPage from 'pages/services';
-import AddService from 'pages/services/add-service';
 import XperiaGroup from 'pages/about/XperiaGroup';
 import XperiaAlive from 'pages/about/XperiaAlive';
 import PencilBox from 'pages/about/PencilBox';
@@ -21,6 +20,14 @@ import SettingsPage from 'pages/settings';
 import HomePage from 'pages/home';
 import AddBanner from 'pages/home/add-banner';
 import NewBlog from 'pages/blogs/NewBlog';
+import OOhService from 'pages/services/ooh-service';
+import MultiPlexService from 'pages/services/multiplex-service';
+import CinemaAdvertising from 'pages/services/cinema-advertising';
+import EventsAndPromotions from 'pages/services/events-promotions';
+import ContentDesign from 'sections/add-service/Content-design';
+import Music from 'pages/services/music';
+import CorporateFilms from 'sections/add-service/corporate-films';
+import CreativeRetainership from 'sections/add-service/creative-retainership';
 
 const MaintenanceError = Loadable(lazy(() => import('pages/maintenance/error/404')));
 const MaintenanceError500 = Loadable(lazy(() => import('pages/maintenance/error/500')));
@@ -95,8 +102,36 @@ const MainRoutes = {
           element: <ServicesPage />
         },
         {
-          path: 'add-services',
-          element: <AddService />
+          path: 'music',
+          element: <Music />
+        },
+        {
+          path: 'corporate-films',
+          element: <CorporateFilms />
+        },
+        {
+          path: 'creative-retainership',
+          element: <CreativeRetainership />
+        },
+        {
+          path: 'content-design',
+          element: <ContentDesign />
+        },
+        {
+          path: 'events-and-promotions',
+          element: <EventsAndPromotions />
+        },
+        {
+          path: 'cinema-advertising',
+          element: <CinemaAdvertising />
+        },
+        {
+          path: 'out-of-home',
+          element: <OOhService />
+        },
+        {
+          path: 'multiplex',
+          element: <MultiPlexService />
         },
         {
           path: 'add-blogs',

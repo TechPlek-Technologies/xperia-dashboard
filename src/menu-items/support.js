@@ -70,9 +70,90 @@ const support = {
     {
       id: 'services',
       title: <FormattedMessage id="services" />,
-      type: 'item',
-      url: 'services',
-      icon: icons.services
+      type: 'collapse',
+      icon: icons.services,
+      children: [
+        {
+          id: 'out-of-home',
+          title: (
+            <>
+              <FormattedMessage id="out-of-home" />
+            </>
+          ),
+          type: 'item',
+          url: 'out-of-home'
+        },
+        {
+          id: 'multiplex',
+          title: (
+            <>
+              <FormattedMessage id="multiplex" />
+            </>
+          ),
+          type: 'item',
+          url: 'multiplex'
+        },
+        {
+          id: 'cinema-advertising',
+          title: (
+            <>
+              <FormattedMessage id="cinema-advertising" />
+            </>
+          ),
+          type: 'item',
+          url: 'cinema-advertising'
+        },
+        {
+          id: 'events-and-promotions',
+          title: (
+            <>
+              <FormattedMessage id="events-and-promotions" />
+            </>
+          ),
+          type: 'item',
+          url: 'events-and-promotions'
+        },
+        {
+          id: 'content-design',
+          title: (
+            <>
+              <FormattedMessage id="content-design" />
+            </>
+          ),
+          type: 'item',
+          url: 'content-design'
+        },
+        {
+          id: 'creative-retainership',
+          title: (
+            <>
+              <FormattedMessage id="creative-retainership" />
+            </>
+          ),
+          type: 'item',
+          url: 'creative-retainership'
+        },
+        {
+          id: 'corporate-films',
+          title: (
+            <>
+              <FormattedMessage id="corporate-films" />
+            </>
+          ),
+          type: 'item',
+          url: 'corporate-films'
+        },
+        {
+          id: 'music',
+          title: (
+            <>
+              <FormattedMessage id="music" />
+            </>
+          ),
+          type: 'item',
+          url: 'music'
+        }
+      ]
     },
     {
       id: 'projects',

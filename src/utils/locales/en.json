@@ -154,5 +154,13 @@
   "service-list":"Service List",
   "add-new-service":"New Service",
   "awards":"Awards",
-  "home":"Homepage"
+  "home":"Homepage",
+  "music": "Music",
+  "corporate-films":"Corporate Films",
+  "creative-retainership": "Creative Retainership",
+  "content-design": "Content Design",
+  "events-and-promotions": "Events & Promotions",
+  "cinema-advertising": "Cinema Advertising",
+  "out-of-home": "Out of Home",
+  "multiplex": "Multiplex"
 }

@@ -52,6 +52,7 @@ BannerUploadSection.propTypes = {
 
 const BasicInfo = ({ basicInfo, setBasicInfo, handleNext, setErrorIndex }) => {
   const [banner, setBanner] = useState(basicInfo.banner || null);
+  const [iconImage, setIconImage] = useState(basicInfo.banner || null);
   const [carousel1, setCarousel1] = useState(basicInfo.carousel1 || null);
   const [carousel2, setCarousel2] = useState(basicInfo.carousel2 || null);
   const [carousel3, setCarousel3] = useState(basicInfo.carousel3 || null);
@@ -87,6 +88,9 @@ const BasicInfo = ({ basicInfo, setBasicInfo, handleNext, setErrorIndex }) => {
 
     // Update the corresponding state based on the name
     switch (name) {
+      case 'iconImage':
+        setIconImage(images);
+        break;
       case 'banner':
         setBanner(images);
         break;
@@ -159,15 +163,42 @@ const BasicInfo = ({ basicInfo, setBasicInfo, handleNext, setErrorIndex }) => {
                 error={formik.touched.longDescription && Boolean(formik.errors.longDescription)}
                 helperText={formik.touched.longDescription && formik.errors.longDescription}
                 fullWidth
+                multiline
+                rows={2}
+              />
+            </Stack>
+          </Grid>
+          <Grid item xs={12}>
+            <Stack spacing={1}>
+              <InputLabel>Project Overview</InputLabel>
+              <TextField
+                id="projectOverview"
+                name="projectOverview"
+                placeholder="Project Overview"
+                value={formik.values.projectOverview}
+                onChange={formik.handleChange}
+                error={formik.touched.projectOverview && Boolean(formik.errors.projectOverview)}
+                helperText={formik.touched.projectOverview && formik.errors.projectOverview}
+                fullWidth
+                multiline
+                rows={2}
               />
             </Stack>
           </Grid>
 
           {/* Banner Upload Sections */}
           <BannerUploadSection
+            id="iconImage"
+            name="iconImage"
+            label="Icon Image 1259x724"
+            images={iconImage}
+            handleBannerImageChange={(images) => handleBannerImageChange('iconImage', images)}
+            formik={formik}
+          />
+          <BannerUploadSection
             id="banner"
             name="banner"
-            label="Banner Dimension 1259x724"
+            label="Banner Image 1259x724"
             images={banner}
             handleBannerImageChange={(images) => handleBannerImageChange('banner', images)}
             formik={formik}
@@ -175,7 +206,7 @@ const BasicInfo = ({ basicInfo, setBasicInfo, handleNext, setErrorIndex }) => {
           <BannerUploadSection
             id="carousel1"
             name="carousel1"
-            label="Banner Dimension 1024x589"
+            label="Banner Image -Dimension 1024x589"
             images={carousel1}
             handleBannerImageChange={(images) => handleBannerImageChange('carousel1', images)}
             formik={formik}

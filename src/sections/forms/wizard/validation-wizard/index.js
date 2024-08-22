@@ -64,39 +64,40 @@ const getStepContent = (
 };
 
 const uploadProject = async (projectDetails, iconImages, bannerImages, projectImages, carouselImages) => {
-  const formData = {};
+  const data = {};
 
   // Append project details
-  formData.companyName = projectDetails.companyName;
-  formData.companyOverview = projectDetails.companyOverview;
-  formData.firstName = projectDetails.firstName;
-  formData.lastName = projectDetails.lastName;
-  formData.projectType = projectDetails.projectType;
-  formData.projectChallenge = projectDetails.projectChallenge;
-  formData.projectConcept = projectDetails.projectConcept;
-  formData.projectOverview = projectDetails.projectOverview;
-  formData.projectSolution = projectDetails.projectSolution;
-  formData.projectTitle = projectDetails.projectTitle;
-  formData.publishDate = projectDetails.publishDate;
-  formData.homepage = projectDetails.homepage || false;
-  formData.slug = generateSlug(projectDetails.projectTitle);
-  formData.iconImages = iconImages;
-  formData.bannerImages = bannerImages;
+  data.companyName = projectDetails.companyName;
+  data.companyOverview = projectDetails.companyOverview;
+  data.firstName = projectDetails.firstName;
+  data.lastName = projectDetails.lastName;
+  data.projectType = projectDetails.projectType;
+  data.projectChallenge = projectDetails.projectChallenge;
+  data.projectConcept = projectDetails.projectConcept;
+  data.projectOverview = projectDetails.projectOverview;
+  data.projectSolution = projectDetails.projectSolution;
+  data.projectTitle = projectDetails.projectTitle;
+  data.publishDate = projectDetails.publishDate;
+  data.homepage = projectDetails.homepage || false;
+  data.slug = generateSlug(projectDetails.projectTitle);
+  data.iconImages = iconImages;
+  data.bannerImages = bannerImages;
+  data.category = projectDetails.category;
 
   // Handle project images
-  formData.projectImages = projectImages.map((file, index) => ({
+  data.projectImages = projectImages.map((file, index) => ({
     index,
     file
   }));
 
   // Handle carousel images
-  formData.carouselImages = carouselImages.map((file, index) => ({
+  data.carouselImages = carouselImages.map((file, index) => ({
     index,
     file
   }));
 
   // API call to upload project
-  return await postData(`${process.env.REACT_APP_API_URL}projects`, formData);
+  return await postData(`${process.env.REACT_APP_API_URL}/projects`, data);
 };
 
 // ==============================|| FORMS WIZARD - VALIDATION ||============================== //
@@ -116,6 +117,8 @@ const ValidationWizard = () => {
       if (!(iconImages && bannerImages && carouselImages && projectImages)) {
         setErrorIndex(activeStep);
       } else {
+        console.log(projectInfo);
+
         const projectDetails = {
           companyName: clientInfo.companyName,
           companyOverview: clientInfo.companyOverview,
@@ -128,6 +131,7 @@ const ValidationWizard = () => {
           projectSolution: projectInfo.projectSolution,
           projectTitle: projectInfo.projectTitle,
           publishDate: projectInfo.publishDate,
+          category: projectInfo.category,
           homepage: clientInfo.homepage ? true : false
         };
         const response = await uploadProject(projectDetails, iconImages, bannerImages, projectImages, carouselImages);

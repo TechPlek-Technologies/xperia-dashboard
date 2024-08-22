@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 // material-ui
-import { Button, Grid, InputLabel, Stack, TextField, Typography } from '@mui/material';
+import { Button, Grid, InputLabel, MenuItem, Select, Stack, TextField, Typography } from '@mui/material';
 
 // third-party
 import { useFormik } from 'formik';
@@ -12,6 +12,7 @@ import AnimateButton from 'components/@extended/AnimateButton';
 
 const validationSchema = yup.object({
   projectTitle: yup.string().required('Project Title is required'),
+  category: yup.string().required('Category is required'),
   publishDate: yup.string().required('Publish Date is required'),
   projectOverview: yup.string().required('Project Overview is required'),
   projectChallenge: yup.string().required('Project Challenge is required'),
@@ -29,7 +30,8 @@ export default function ProjectForm({ projectInfo, setProjectInfo, handleNext, h
       projectOverview: projectInfo.projectOverview,
       projectChallenge: projectInfo.projectChallenge,
       projectConcept: projectInfo.projectConcept,
-      projectSolution: projectInfo.projectSolution
+      projectSolution: projectInfo.projectSolution,
+      category: projectInfo.category
     },
     validationSchema,
     onSubmit: (values) => {
@@ -39,7 +41,8 @@ export default function ProjectForm({ projectInfo, setProjectInfo, handleNext, h
         projectOverview: values.projectOverview,
         projectChallenge: values.projectChallenge,
         projectConcept: values.projectConcept,
-        projectSolution: values.projectSolution
+        projectSolution: values.projectSolution,
+        category: values.category
       });
       handleNext();
     }
@@ -86,6 +89,28 @@ export default function ProjectForm({ projectInfo, setProjectInfo, handleNext, h
           </Grid>
           <Grid item xs={12}>
             <Stack spacing={1}>
+              <InputLabel id="category">Category</InputLabel>
+              <Select
+                labelId="category"
+                id="category"
+                name="category"
+                value={formik.values.category}
+                onChange={formik.handleChange}
+                error={formik.touched.category && Boolean(formik.errors.category)}
+                helperText={formik.touched.category && formik.errors.category}
+                fullWidth
+                placeholder="Category"
+              >
+                <MenuItem value={'brands'}>Brands</MenuItem>
+                <MenuItem value={'ooh'}>OOH</MenuItem>
+                <MenuItem value={'events'}>Events</MenuItem>
+                <MenuItem value={'activation'}>Activation</MenuItem>
+                <MenuItem value={'multiplex'}>Multiplex Cinema</MenuItem>
+              </Select>
+            </Stack>
+          </Grid>
+          <Grid item xs={12}>
+            <Stack spacing={1}>
               <InputLabel>Project Overview</InputLabel>
               <TextField
                 id="projectOverview"
@@ -101,6 +126,7 @@ export default function ProjectForm({ projectInfo, setProjectInfo, handleNext, h
               />
             </Stack>
           </Grid>
+
           <Grid item xs={12}>
             <Stack spacing={1}>
               <InputLabel>Project Challenge</InputLabel>

@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 
 // project-imports
 import MainCard from 'components/MainCard';
-import Editor from 'sections/Editor/TextEditor';
 import { useState } from 'react';
 import { Button, FormHelperText, Grid, InputLabel, Stack, TextField } from '@mui/material';
 import AnimateButton from 'components/@extended/AnimateButton';
 import SingleFileUpload from 'components/third-party/dropzone/SingleFile';
+import Editor from 'sections/Blog/Add-Blog';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 

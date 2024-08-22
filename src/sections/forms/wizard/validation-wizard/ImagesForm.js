@@ -130,7 +130,7 @@ export default function ImagesForm({
                     <Grid item xs={12}>
                       <Stack spacing={1.5} alignItems="center">
                         <UploadMultiFile
-                          showList={list}
+                          showList={true}
                           setFieldValue={setFieldValue}
                           files={values.files}
                           onUpload={async () => {

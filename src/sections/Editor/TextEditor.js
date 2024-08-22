@@ -1,103 +1,134 @@
-import PropTypes from 'prop-types';
-
 // material-ui
-import { useTheme } from '@mui/material/styles';
-import { Grid } from '@mui/material';
-
+import { Button, Grid, InputLabel, Stack, TextField, FormHelperText } from '@mui/material';
+import PropTypes from 'prop-types';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 // project-imports
-import ReactDraft from 'sections/forms/plugins/ReactDraft';
 import MainCard from 'components/MainCard';
-import useConfig from 'hooks/useConfig';
-import { ThemeDirection, ThemeMode } from 'config';
+import { useState } from 'react';
+import AnimateButton from 'components/@extended/AnimateButton';
+import SingleFileUpload from 'components/third-party/dropzone/SingleFile';
 
-// ==============================|| PLUGIN - EDITOR ||============================== //
+// assets
 
-const Editor = ({ subtitle, setValue, value }) => {
-  const theme = useTheme();
-  const { themeDirection } = useConfig();
+// ==============================|| LAYOUTS -  COLUMNS ||============================== //
+const validationSchema = yup.object({
+  title: yup.string().required('Title is required'),
+  description: yup.string().required('Description is required'),
+  aboutImage: yup.mixed().required('Award image is required')
+});
+
+function Editor({ slug, titleText, aboutData, setAboutData, handleSubmit }) {
+  const [image, setImage] = useState(aboutData.aboutImage || null);
+
+  const formik = useFormik({
+    initialValues: {
+      title: aboutData.name || '',
+      description: aboutData.description || '',
+      aboutImage: aboutData.aboutImage || null,
+      files: []
+    },
+    validationSchema,
+    onSubmit: async (values) => {
+      // Update the basicInfo state with all form values including bannerImages
+
+      await setAboutData({
+        name: values.title,
+        description: values.description,
+        slug: slug,
+        aboutImage: image
+      });
+
+      await handleSubmit(aboutData);
+    }
+  });
+
+  const handleaboutImageChange = (images) => {
+    setImage(images);
+    formik.setFieldValue('aboutImage', images); // Ensure formik's state is updated
+    setAboutData((prevInfo) => ({
+      ...prevInfo,
+      aboutImage: images
+    }));
+  };
   return (
-    <Grid container spacing={3}>
-      <Grid
-        item
-        xs={12}
-        sx={{
-          '& .rdw-editor-wrapper': {
-            bgcolor: theme.palette.background.paper,
-            border: '1px solid',
-            borderColor: theme.palette.divider,
-            borderRadius: '4px',
-            overflow: 'visible',
-            '& .rdw-editor-main': {
-              px: 2,
-              py: 0.5,
-              border: 'none'
-            },
-            '& .rdw-editor-toolbar': {
-              pt: 1.25,
-              border: 'none',
-              borderBottom: '1px solid',
-              borderColor: theme.palette.divider,
-              bgcolor: theme.palette.mode === ThemeMode.DARK ? 'dark.light' : 'secondary.lighter',
-              '& .rdw-option-wrapper': {
-                bgcolor: theme.palette.mode === ThemeMode.DARK ? 'dark.light' : 'secondary.lighter',
-                borderColor: theme.palette.divider
-              },
-              '& .rdw-dropdown-wrapper': {
-                bgcolor: theme.palette.mode === ThemeMode.DARK ? 'dark.light' : 'secondary.lighter',
-                borderColor: theme.palette.divider,
-                '& .rdw-dropdown-selectedtext': {
-                  color: theme.palette.mode === ThemeMode.DARK ? theme.palette.secondary[100] : 'secondary.darker'
-                },
-                '& .rdw-dropdownoption-default': {
-                  color: theme.palette.mode === ThemeMode.DARK ? theme.palette.secondary[100] : 'secondary.darker'
-                },
-                '& .rdw-dropdown-carettoopen': {
-                  position: themeDirection === ThemeDirection.RTL ? 'initial' : 'absolute'
-                }
-              },
-              '& .rdw-emoji-modal': {
-                left: { xs: -140, sm: -195, md: 5 }
-              },
-              '& .rdw-embedded-modal': {
-                left: { xs: -100, sm: -165, md: 5 }
-              },
-              '& .rdw-link-modal': {
-                left: { xs: 0, sm: -100, md: 5 }
-              },
-              '& .rdw-image-modal': {
-                left: { xs: -190, sm: 30, md: 5 },
-                top: '15px'
-              },
-              '& .rdw-colorpicker-modal': {
-                left: { xs: -150, sm: 5 }
-              }
-            },
-            ...(theme.direction === ThemeDirection.RTL && {
-              '.rdw-dropdown-carettoopen': {
-                position: 'absolute !important',
-                right: '10%',
-                left: 'inherit'
-              },
-              '.rdw-dropdown-carettoclose': {
-                right: '10%',
-                left: 'inherit'
-              }
-            })
-          }
-        }}
-      >
-        <MainCard title={subtitle} sx={{ overflow: 'visible' }}>
-          <ReactDraft value={value} setValue={setValue} />
-        </MainCard>
+    <form onSubmit={formik.handleSubmit} id="validation-forms">
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <MainCard title={titleText}>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item xs={12}>
+                <Stack spacing={1}>
+                  <InputLabel>Title</InputLabel>
+                  <TextField
+                    id="title"
+                    name="title"
+                    value={formik.values.title}
+                    onChange={formik.handleChange}
+                    error={formik.touched.title && Boolean(formik.errors.title)}
+                    helperText={formik.touched.title && formik.errors.title}
+                    fullWidth
+                    placeholder="Enter Award Title"
+                  />
+                </Stack>
+              </Grid>
+              <Grid item xs={12}>
+                <Stack spacing={1}>
+                  <InputLabel>Description</InputLabel>
+                  <TextField
+                    id="description"
+                    name="description"
+                    placeholder="Description"
+                    value={formik.values.description}
+                    onChange={formik.handleChange}
+                    error={formik.touched.description && Boolean(formik.errors.description)}
+                    helperText={formik.touched.description && formik.errors.description}
+                    fullWidth
+                    multiline
+                    rows={4}
+                  />
+                </Stack>
+              </Grid>
+              <Grid item xs={12}>
+                <Stack spacing={1}>
+                  <InputLabel>Banner Image</InputLabel>
+                  <SingleFileUpload
+                    id="aboutImage"
+                    name="aboutImage"
+                    images={image}
+                    setFieldValue={formik.setFieldValue}
+                    setImages={handleaboutImageChange}
+                    file={formik.values.files}
+                    error={formik.touched.aboutImage && Boolean(formik.errors.aboutImage)}
+                    helperText={formik.touched.aboutImage && formik.errors.aboutImage}
+                  />
+                </Stack>
+                <FormHelperText>{'Banner image is required'}</FormHelperText>
+              </Grid>
+              <Grid item xs={12}>
+                <Stack direction="row" justifyContent="flex-end">
+                  <AnimateButton>
+                    <Button variant="contained" sx={{ my: 3, ml: 1 }} type="submit">
+                      Submit
+                    </Button>
+                  </AnimateButton>
+                </Stack>
+              </Grid>
+            </Grid>
+          </MainCard>
+        </Grid>
       </Grid>
-    </Grid>
+    </form>
   );
-};
+}
 
 export default Editor;
 
 Editor.propTypes = {
-  subtitle: PropTypes.string,
-  value: PropTypes.string,
-  setValue: PropTypes.func
+  aboutData: PropTypes.object,
+  image: PropTypes.string,
+  slug: PropTypes.string,
+  titleText: PropTypes.string,
+  handleSubmit: PropTypes.func.isRequired,
+  setAboutData: PropTypes.func
 };

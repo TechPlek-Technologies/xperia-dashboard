@@ -1,13 +1,7 @@
 import PropTypes from 'prop-types';
-
-// material-ui
 import { styled, useTheme } from '@mui/material/styles';
 import { Box, Button, Stack } from '@mui/material';
-
-// third-party
 import { useDropzone } from 'react-dropzone';
-
-// project-imports
 import RejectionFiles from './RejectionFiles';
 import PlaceholderContent from './PlaceholderContent';
 import { addNewFilesLocal, removeFile } from 'utils/clientFunctions';
@@ -24,9 +18,7 @@ const DropzoneWrapper = styled('div')(({ theme }) => ({
   '&:hover': { opacity: 0.72, cursor: 'pointer' }
 }));
 
-// ==============================|| UPLOAD - SINGLE FILE ||============================== //
-
-const SingleFileUpload = ({ error, file, setFieldValue, sx, images, setImages }) => {
+const SingleFileUpload = ({ error, file, setFieldValue, sx, images, setImages, name }) => {
   const theme = useTheme();
 
   const { getRootProps, getInputProps, isDragActive, isDragReject, fileRejections } = useDropzone({
@@ -35,14 +27,7 @@ const SingleFileUpload = ({ error, file, setFieldValue, sx, images, setImages })
     },
     multiple: false,
     onDrop: async (acceptedFiles) => {
-      setFieldValue(
-        'files',
-        acceptedFiles.map((file) =>
-          Object.assign(file, {
-            preview: URL.createObjectURL(file)
-          })
-        )
-      );
+      setFieldValue(name, acceptedFiles[0]);
       const response = await addNewFilesLocal(acceptedFiles[0]);
       if (response.success) {
         setImages({ name: response.name, url: response.url });
@@ -70,7 +55,7 @@ const SingleFileUpload = ({ error, file, setFieldValue, sx, images, setImages })
   const onRemove = async () => {
     await removeFile(images.name);
     setImages(null);
-    setFieldValue('files', null);
+    setFieldValue(name, null); // Clear the field value in Formik
   };
 
   return (
@@ -96,7 +81,7 @@ const SingleFileUpload = ({ error, file, setFieldValue, sx, images, setImages })
 
       {fileRejections.length > 0 && <RejectionFiles fileRejections={fileRejections} />}
 
-      {file && file.length > 0 && (
+      {file && (
         <Stack direction="row" justifyContent="flex-end" sx={{ mt: 1.5 }}>
           <Button variant="contained" color="error" onClick={onRemove}>
             Remove
@@ -109,11 +94,12 @@ const SingleFileUpload = ({ error, file, setFieldValue, sx, images, setImages })
 
 SingleFileUpload.propTypes = {
   error: PropTypes.bool,
-  file: PropTypes.array,
-  setFieldValue: PropTypes.func,
+  file: PropTypes.array, // Change to object to match the file
+  setFieldValue: PropTypes.func.isRequired,
   sx: PropTypes.object,
-  setImages: PropTypes.func,
-  images: PropTypes.object
+  setImages: PropTypes.func.isRequired,
+  images: PropTypes.object,
+  name: PropTypes.string.isRequired // Added name prop
 };
 
 export default SingleFileUpload;
