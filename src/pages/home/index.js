@@ -299,8 +299,10 @@ const HomePage = () => {
     const fetchData = async () => {
       try {
         const newData = await getData(`${process.env.REACT_APP_API_URL}/home-banner/all-banners`);
-        setData(newData);
         console.log(newData);
+        if (newData.success) {
+          setData(newData.data);
+        }
       } catch (error) {
         console.error('Error fetching data:', error);
       }

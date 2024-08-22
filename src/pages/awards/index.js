@@ -307,7 +307,7 @@ const AwardsPage = () => {
     const fetchData = async () => {
       try {
         const newData = await getData(`${process.env.REACT_APP_API_URL}/awards/all-awards`);
-        setData(newData);
+        setData(newData.data);
         console.log(newData);
       } catch (error) {
         console.error('Error fetching data:', error);

@@ -17,8 +17,16 @@ const PencilBox = ({ title }) => {
     const fetchData = async () => {
       try {
         const newData = await getData(`${process.env.REACT_APP_API_URL}/about/find-by-slug/pencil-box`);
-        console.log(newData);
-        setAboutData(newData);
+        if (newData.success) {
+          setAboutData(newData.data);
+        } else {
+          setAboutData({
+            name: '',
+            description: '',
+            slug: '',
+            aboutImage: null
+          });
+        }
       } catch (error) {
         console.error('Error fetching data:', error);
       }

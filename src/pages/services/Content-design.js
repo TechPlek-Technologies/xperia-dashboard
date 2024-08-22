@@ -6,7 +6,7 @@ import { getData } from 'utils/clientFunctions';
 
 // ==============================|| FORMS WIZARD ||============================== //
 
-const CorporateFilms = () => {
+const ContentDesign = () => {
   const location = useLocation();
   let pathname = location.pathname;
   const [serviceData, setServiceData] = useState(null);
@@ -17,9 +17,30 @@ const CorporateFilms = () => {
       try {
         const newData = await getData(`${process.env.REACT_APP_API_URL}/services/find-by-slug${pathname}`);
 
-        console.log('Fetched Data:', newData);
-
-        setServiceData(newData);
+        setServiceData(newData.data);
+        if (newData.success) {
+          setServiceData(newData.data);
+        } else {
+          setServiceData({
+            title: null,
+            shortDescription: null,
+            longDescription: null,
+            banner: null,
+            carousel1: null,
+            carousel2: null,
+            carousel3: null,
+            title1: null,
+            title2: null,
+            title3: null,
+            title4: null,
+            title5: null,
+            content1: null,
+            content2: null,
+            content3: null,
+            content4: null,
+            content5: null
+          });
+        }
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -31,11 +52,11 @@ const CorporateFilms = () => {
     <Grid container spacing={2.5} justifyContent="center" key={pathname}>
       <Grid item xs={12} md={6} lg={7}>
         {serviceData && (
-          <AddServices slug={pathname} serviceData={serviceData} setServiceData={setServiceData} serviceTitle={'Corporate Film Services'} />
+          <AddServices slug={pathname} serviceData={serviceData} setServiceData={setServiceData} serviceTitle={'Content Design Services'} />
         )}
       </Grid>
     </Grid>
   );
 };
 
-export default CorporateFilms;
+export default ContentDesign;

@@ -317,7 +317,7 @@ const ProjectPage = () => {
     const fetchData = async () => {
       try {
         const newData = await getData(`${process.env.REACT_APP_API_URL}/teams/all-teams`);
-        setData(newData);
+        setData(newData.data);
         console.log(newData);
       } catch (error) {
         console.error('Error fetching data:', error);

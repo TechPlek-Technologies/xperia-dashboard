@@ -167,7 +167,7 @@ const BasicInfo = ({ basicInfo, setBasicInfo, handleNext, setErrorIndex }) => {
           <BannerUploadSection
             id="banner"
             name="banner"
-            label="Banner Dimension 1259x724"
+            label="Banner Dimension 1400x720"
             images={banner}
             handleBannerImageChange={(images) => handleBannerImageChange('banner', images)}
             formik={formik}
@@ -175,7 +175,7 @@ const BasicInfo = ({ basicInfo, setBasicInfo, handleNext, setErrorIndex }) => {
           <BannerUploadSection
             id="carousel1"
             name="carousel1"
-            label="Banner Dimension 1024x589"
+            label="Carousel Image 1 1400x720"
             images={carousel1}
             handleBannerImageChange={(images) => handleBannerImageChange('carousel1', images)}
             formik={formik}
@@ -183,7 +183,7 @@ const BasicInfo = ({ basicInfo, setBasicInfo, handleNext, setErrorIndex }) => {
           <BannerUploadSection
             id="carousel2"
             name="carousel2"
-            label="Banner Dimension 768x442"
+            label="Carousel Image 2 1400x720"
             images={carousel2}
             handleBannerImageChange={(images) => handleBannerImageChange('carousel2', images)}
             formik={formik}
@@ -191,7 +191,7 @@ const BasicInfo = ({ basicInfo, setBasicInfo, handleNext, setErrorIndex }) => {
           <BannerUploadSection
             id="carousel3"
             name="carousel3"
-            label="Banner Dimension 300x173"
+            label="Carousel Image 3 1400x720"
             images={carousel3}
             handleBannerImageChange={(images) => handleBannerImageChange('carousel3', images)}
             formik={formik}

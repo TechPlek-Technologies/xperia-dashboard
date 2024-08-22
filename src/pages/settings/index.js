@@ -4,14 +4,13 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 // third-party
-import { PatternFormat } from 'react-number-format';
-
 // project-imports
 import MainCard from 'components/MainCard';
 import SingleFileUpload from 'components/third-party/dropzone/SingleFile';
 import { Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getData, postData } from 'utils/clientFunctions';
 
 // ==============================|| VALIDATION SCHEMAS ||============================== //
 const imageUploadValidationSchema = Yup.object({
@@ -35,11 +34,52 @@ const socialMediaValidationSchema = Yup.object({
 });
 
 // ==============================|| MAIN COMPONENT ||============================== //
+
 const SettingsPage = () => {
   const [navLogoImage, setNavLogoImage] = useState(null);
   const [footerLogoImage, setFooterLogoImage] = useState(null);
   const [favicon, setFavicon] = useState(null);
   const [sidebarLogoImage, setSidebarLogoImage] = useState(null);
+  const [contact, setContact] = useState({
+    phoneNumber: '',
+    email: '',
+    address: ''
+  });
+  const [social, setSocial] = useState({
+    instagram: '',
+    facebook: '',
+    x: '',
+    youtube: ''
+  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await getData(`${process.env.REACT_APP_API_URL}/settings/all-settings`);
+
+      if (response.success && response.data && response.data.length > 0) {
+        const data = response.data[0];
+        setNavLogoImage(data.navbarLogo);
+        setFooterLogoImage(data.footerLogo);
+        setFavicon(data.favicon);
+        setSidebarLogoImage(data.sidebarLogo);
+        setContact({
+          phoneNumber: data.phoneNumber,
+          email: data.email,
+          address: data.address
+        });
+        setSocial({
+          instagram: data.instagram,
+          facebook: data.facebook,
+          x: data.x,
+          youtube: data.youtube
+        });
+      } else {
+        console.error('Failed to fetch settings or settings are empty:', response.err || 'No data found');
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -48,15 +88,20 @@ const SettingsPage = () => {
         <Grid item xs={12}>
           <Formik
             initialValues={{
-              navbarLogo: null,
-              footerLogo: null,
-              favicon: null,
-              sidebarLogo: null
+              navbarLogo: navLogoImage || null,
+              footerLogo: footerLogoImage || null,
+              favicon: favicon || null,
+              sidebarLogo: sidebarLogoImage || null
             }}
+            enableReinitialize={true}
             validationSchema={imageUploadValidationSchema}
-            onSubmit={(values, { setSubmitting }) => {
+            onSubmit={async (values, { setSubmitting }) => {
               console.log('Image Uploads Submitted:', values);
-              setSubmitting(false);
+              const response = await postData(`${process.env.REACT_APP_API_URL}/settings/create-or-update`, values);
+              console.log('response', response);
+              if (response.success) {
+                setSubmitting(false);
+              }
             }}
           >
             {({ setFieldValue, values, errors, touched }) => (
@@ -143,14 +188,19 @@ const SettingsPage = () => {
         <Grid item xs={12} md={6}>
           <Formik
             initialValues={{
-              phoneNumber: '',
-              email: '',
-              address: ''
+              phoneNumber: contact.phoneNumber || '',
+              email: contact.email || '',
+              address: contact.address || ''
             }}
+            enableReinitialize={true}
             validationSchema={contactDetailsValidationSchema}
-            onSubmit={(values, { setSubmitting }) => {
+            onSubmit={async (values, { setSubmitting }) => {
               console.log('Contact Details Submitted:', values);
-              setSubmitting(false);
+              const response = await postData(`${process.env.REACT_APP_API_URL}/settings/create-or-update`, values);
+              console.log('response', response);
+              if (response.success) {
+                setSubmitting(false);
+              }
             }}
           >
             {({ setFieldValue, values, errors, touched }) => (
@@ -160,11 +210,10 @@ const SettingsPage = () => {
                     <Grid item xs={12}>
                       <Stack spacing={1}>
                         <InputLabel>Phone Number</InputLabel>
-                        <PatternFormat
-                          format="+1 (###) ###-####"
-                          mask="_"
-                          fullWidth
-                          customInput={TextField}
+                        <Field
+                          as={TextField}
+                          id="phoneNumber"
+                          name="phoneNumber"
                           placeholder="Phone Number"
                           value={values.phoneNumber}
                           onChange={(e) => setFieldValue('phoneNumber', e.target.value)}
@@ -192,11 +241,10 @@ const SettingsPage = () => {
                     <Grid item xs={12}>
                       <Stack spacing={1}>
                         <InputLabel>Address</InputLabel>
-                        <PatternFormat
-                          // format="(##) ####-#####"
-                          // mask="_"
-                          fullWidth
-                          customInput={TextField}
+                        <Field
+                          as={TextField}
+                          id="Address"
+                          name="Address"
                           placeholder="Address"
                           value={values.address}
                           onChange={(e) => setFieldValue('address', e.target.value)}
@@ -221,15 +269,20 @@ const SettingsPage = () => {
         <Grid item xs={12} md={6}>
           <Formik
             initialValues={{
-              instagram: '',
-              facebook: '',
-              x: '',
-              youtube: ''
+              instagram: social.instagram || '',
+              facebook: social.facebook || '',
+              x: social.x || '',
+              youtube: social.youtube || ''
             }}
+            enableReinitialize={true}
             validationSchema={socialMediaValidationSchema}
-            onSubmit={(values, { setSubmitting }) => {
+            onSubmit={async (values, { setSubmitting }) => {
               console.log('Social Media Submitted:', values);
-              setSubmitting(false);
+              const response = await postData(`${process.env.REACT_APP_API_URL}/settings/create-or-update`, values);
+              console.log('response', response);
+              if (response.success) {
+                setSubmitting(false);
+              }
             }}
           >
             {({ setFieldValue, values, errors, touched }) => (
@@ -239,11 +292,10 @@ const SettingsPage = () => {
                     <Grid item xs={12}>
                       <Stack spacing={1}>
                         <InputLabel>Instagram</InputLabel>
-                        <PatternFormat
-                          format="###.###.###.###"
-                          mask="_"
-                          fullWidth
-                          customInput={TextField}
+                        <Field
+                          as={TextField}
+                          id="instagram"
+                          name="instagram"
                           placeholder="Instagram URL"
                           value={values.instagram}
                           onChange={(e) => setFieldValue('instagram', e.target.value)}
@@ -255,11 +307,10 @@ const SettingsPage = () => {
                     <Grid item xs={12}>
                       <Stack spacing={1}>
                         <InputLabel>Facebook</InputLabel>
-                        <PatternFormat
-                          format="####.####.####.####"
-                          mask="_"
-                          fullWidth
-                          customInput={TextField}
+                        <Field
+                          as={TextField}
+                          id="facebook"
+                          name="facebook"
                           placeholder="Facebook URL"
                           value={values.facebook}
                           onChange={(e) => setFieldValue('facebook', e.target.value)}
@@ -271,11 +322,10 @@ const SettingsPage = () => {
                     <Grid item xs={12}>
                       <Stack spacing={1}>
                         <InputLabel>X</InputLabel>
-                        <PatternFormat
-                          format="####:####:####:#:###:####:####:####"
-                          mask="_"
-                          fullWidth
-                          customInput={TextField}
+                        <Field
+                          as={TextField}
+                          id="x"
+                          name="x"
                           placeholder="X URL"
                           value={values.x}
                           onChange={(e) => setFieldValue('x', e.target.value)}
@@ -287,11 +337,10 @@ const SettingsPage = () => {
                     <Grid item xs={12}>
                       <Stack spacing={1}>
                         <InputLabel>Youtube</InputLabel>
-                        <PatternFormat
-                          format="####:####:####:#:###:####:####:####"
-                          mask="_"
-                          fullWidth
-                          customInput={TextField}
+                        <Field
+                          as={TextField}
+                          id="youtube"
+                          name="youtube"
                           placeholder="Youtube URL"
                           value={values.youtube}
                           onChange={(e) => setFieldValue('youtube', e.target.value)}
