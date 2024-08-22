@@ -17,8 +17,16 @@ const XperiaGroup = ({ title }) => {
     const fetchData = async () => {
       try {
         const newData = await getData(`${process.env.REACT_APP_API_URL}/about/find-by-slug/xperia-group`);
-        console.log(newData);
-        setAboutData(newData.data);
+        if (newData.success) {
+          setAboutData(newData.data);
+        } else {
+          setAboutData({
+            name: '',
+            description: '',
+            slug: '',
+            aboutImage: null
+          });
+        }
       } catch (error) {
         console.error('Error fetching data:', error);
       }

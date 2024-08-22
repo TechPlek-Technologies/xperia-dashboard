@@ -24,10 +24,10 @@ import OOhService from 'pages/services/ooh-service';
 import MultiPlexService from 'pages/services/multiplex-service';
 import CinemaAdvertising from 'pages/services/cinema-advertising';
 import EventsAndPromotions from 'pages/services/events-promotions';
-import ContentDesign from 'sections/add-service/Content-design';
 import Music from 'pages/services/music';
-import CorporateFilms from 'sections/add-service/corporate-films';
-import CreativeRetainership from 'sections/add-service/creative-retainership';
+import CorporateFilms from 'pages/services/corporate-films';
+import CreativeRetainership from 'pages/services/creative-retainership';
+import ContentDesign from 'pages/services/Content-design';
 
 const MaintenanceError = Loadable(lazy(() => import('pages/maintenance/error/404')));
 const MaintenanceError500 = Loadable(lazy(() => import('pages/maintenance/error/500')));

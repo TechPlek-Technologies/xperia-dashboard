@@ -11,14 +11,23 @@ import { useEffect, useState } from 'react';
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const XperiaAlive = ({ title }) => {
-  const [aboutData, setAboutData] = useState(null);
-
+  const [aboutData, setAboutData] = useState({});
+  const [key, setKey] = useState(0);
   useEffect(() => {
     const fetchData = async () => {
       try {
         const newData = await getData(`${process.env.REACT_APP_API_URL}/about/find-by-slug/xperia-alive`);
         console.log(newData);
-        setAboutData(newData.data);
+        if (newData.success) {
+          setAboutData(newData.data);
+        } else {
+          setAboutData({
+            name: '',
+            description: '',
+            slug: '',
+            aboutImage: null
+          });
+        }
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -31,6 +40,9 @@ const XperiaAlive = ({ title }) => {
     console.log('aboutData', aboutData);
 
     const response = await postData(`${process.env.REACT_APP_API_URL}/about`, aboutData);
+    if (response.success) {
+      setKey(key + 1);
+    }
     console.log(response);
     // Optionally, you can update the state here if you need to reflect changes immediately
   };
