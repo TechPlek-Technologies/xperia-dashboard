@@ -19,7 +19,7 @@ const OOhService = () => {
 
         console.log('Fetched Data:', newData);
 
-        setServiceData(newData);
+        setServiceData(newData.data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
