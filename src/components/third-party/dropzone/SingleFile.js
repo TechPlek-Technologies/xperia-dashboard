@@ -94,7 +94,7 @@ const SingleFileUpload = ({ error, file, setFieldValue, sx, images, setImages, n
 
 SingleFileUpload.propTypes = {
   error: PropTypes.bool,
-  file: PropTypes.array, // Change to object to match the file
+  file: PropTypes.object, // Change to object to match the file
   setFieldValue: PropTypes.func.isRequired,
   sx: PropTypes.object,
   setImages: PropTypes.func.isRequired,

@@ -26,7 +26,7 @@ function Editor({ slug, titleText, aboutData, setAboutData, handleSubmit }) {
       title: aboutData.name || '',
       description: aboutData.description || '',
       aboutImage: aboutData.aboutImage || null,
-      files: []
+      // files: []
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -98,7 +98,7 @@ function Editor({ slug, titleText, aboutData, setAboutData, handleSubmit }) {
                     images={image}
                     setFieldValue={formik.setFieldValue}
                     setImages={handleaboutImageChange}
-                    file={formik.values.files}
+                    file={image}
                     error={formik.touched.aboutImage && Boolean(formik.errors.aboutImage)}
                     helperText={formik.touched.aboutImage && formik.errors.aboutImage}
                   />

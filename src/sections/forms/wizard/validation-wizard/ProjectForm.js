@@ -9,6 +9,7 @@ import * as yup from 'yup';
 
 // project-imports
 import AnimateButton from 'components/@extended/AnimateButton';
+import { FormControl } from '@mui/base';
 
 const validationSchema = yup.object({
   projectTitle: yup.string().required('Project Title is required'),
@@ -25,13 +26,13 @@ const validationSchema = yup.object({
 export default function ProjectForm({ projectInfo, setProjectInfo, handleNext, handleBack, setErrorIndex }) {
   const formik = useFormik({
     initialValues: {
-      projectTitle: projectInfo.projectTitle,
-      publishDate: projectInfo.publishDate,
-      projectOverview: projectInfo.projectOverview,
-      projectChallenge: projectInfo.projectChallenge,
-      projectConcept: projectInfo.projectConcept,
-      projectSolution: projectInfo.projectSolution,
-      category: projectInfo.category
+      projectTitle: projectInfo.projectTitle || '',
+      publishDate: projectInfo.publishDate || '',
+      projectOverview: projectInfo.projectOverview || '',
+      projectChallenge: projectInfo.projectChallenge || '',
+      projectConcept: projectInfo.projectConcept || '',
+      projectSolution: projectInfo.projectSolution || '',
+      category: projectInfo.category || ''
     },
     validationSchema,
     onSubmit: (values) => {
@@ -90,23 +91,29 @@ export default function ProjectForm({ projectInfo, setProjectInfo, handleNext, h
           <Grid item xs={12}>
             <Stack spacing={1}>
               <InputLabel id="category">Category</InputLabel>
-              <Select
-                labelId="category"
-                id="category"
-                name="category"
-                value={formik.values.category}
-                onChange={formik.handleChange}
-                error={formik.touched.category && Boolean(formik.errors.category)}
-                helperText={formik.touched.category && formik.errors.category}
-                fullWidth
-                placeholder="Category"
-              >
-                <MenuItem value={'brands'}>Brands</MenuItem>
-                <MenuItem value={'ooh'}>OOH</MenuItem>
-                <MenuItem value={'events'}>Events</MenuItem>
-                <MenuItem value={'activation'}>Activation</MenuItem>
-                <MenuItem value={'multiplex'}>Multiplex Cinema</MenuItem>
-              </Select>
+              <FormControl error={formik.touched.category && Boolean(formik.errors.category)}>
+                <Select
+                  labelId="category"
+                  id="category"
+                  name="category"
+                  value={formik.values.category}
+                  onChange={formik.handleChange}
+                  error={formik.touched.category && Boolean(formik.errors.category)}
+                  // helperText={formik.touched.category && formik.errors.category}
+                  placeholder="Category"
+                  fullWidth
+                  displayEmpty
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  <MenuItem value={'brands'}>Brands</MenuItem>
+                  <MenuItem value={'ooh'}>OOH</MenuItem>
+                  <MenuItem value={'events'}>Events</MenuItem>
+                  <MenuItem value={'activation'}>Activation</MenuItem>
+                  <MenuItem value={'multiplex'}>Multiplex Cinema</MenuItem>
+                </Select>
+              </FormControl>
             </Stack>
           </Grid>
           <Grid item xs={12}>

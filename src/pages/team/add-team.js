@@ -29,7 +29,7 @@ function AddTeams() {
       designation: teamData.designation || '',
       description: teamData.description || '',
       profileImage: teamData.profileImage || null,
-      files: []
+      // files: []
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -120,7 +120,7 @@ function AddTeams() {
                     images={image}
                     setFieldValue={formik.setFieldValue}
                     setImages={handleProfileImageChange}
-                    file={formik.values.files}
+                    file={image}
                     error={formik.touched.profileImage && Boolean(formik.errors.profileImage)}
                     helperText={formik.touched.profileImage && formik.errors.profileImage}
                   />

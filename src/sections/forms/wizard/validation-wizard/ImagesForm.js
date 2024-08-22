@@ -51,6 +51,7 @@ export default function ImagesForm({
                     <Grid item xs={12}>
                       <Stack spacing={1.5} alignItems="center">
                         <UploadSingleFile
+                          name="files"
                           images={iconImages}
                           setImages={setIconImages}
                           setFieldValue={setFieldValue}
@@ -87,6 +88,7 @@ export default function ImagesForm({
                     <Grid item xs={12}>
                       <Stack spacing={1.5} alignItems="center">
                         <UploadSingleFile
+                          name="files"
                           images={bannerImages}
                           setFieldValue={setFieldValue}
                           setImages={setBannerImages}
@@ -130,6 +132,7 @@ export default function ImagesForm({
                     <Grid item xs={12}>
                       <Stack spacing={1.5} alignItems="center">
                         <UploadMultiFile
+                          name="files"
                           showList={true}
                           setFieldValue={setFieldValue}
                           files={values.files}
@@ -182,6 +185,7 @@ export default function ImagesForm({
                     <Grid item xs={12}>
                       <Stack spacing={1.5} alignItems="center">
                         <UploadMultiFile
+                          name="files"
                           showList={list}
                           setFieldValue={setFieldValue}
                           files={values.files}

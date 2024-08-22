@@ -32,7 +32,7 @@ const BannerUploadSection = ({ id, name, label, images, handleBannerImageChange,
         images={images}
         setFieldValue={formik.setFieldValue}
         setImages={handleBannerImageChange}
-        file={formik.values.files}
+        file={formik.values.file}
         error={formik.touched[name] && Boolean(formik.errors[name])}
         helperText={formik.touched[name] && formik.errors[name]}
       />
@@ -65,7 +65,7 @@ const BasicInfo = ({ basicInfo, setBasicInfo, handleNext, setErrorIndex }) => {
       carousel1: basicInfo.carousel1 || null,
       carousel2: basicInfo.carousel2 || null,
       carousel3: basicInfo.carousel3 || null,
-      files: []
+      // files: []
     },
     validationSchema,
     onSubmit: (values) => {
