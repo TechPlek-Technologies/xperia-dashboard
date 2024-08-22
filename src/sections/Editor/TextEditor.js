@@ -91,11 +91,12 @@ function Editor({ slug, titleText, aboutData, setAboutData, handleSubmit }) {
               </Grid>
               <Grid item xs={12}>
                 <Stack spacing={1}>
-                  <InputLabel>Banner Image</InputLabel>
+                  <InputLabel>Banner Image 1269x 615</InputLabel>
                   <SingleFileUpload
                     id="aboutImage"
                     name="aboutImage"
                     images={image}
+                    sx={{ height: '50%' }}
                     setFieldValue={formik.setFieldValue}
                     setImages={handleaboutImageChange}
                     file={formik.values.files}

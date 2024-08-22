@@ -130,7 +130,7 @@ function AddAward() {
               </Grid>
               <Grid item xs={12}>
                 <Stack spacing={1}>
-                  <InputLabel>Award Image</InputLabel>
+                  <InputLabel>Award Image 750x953</InputLabel>
                   <SingleFileUpload
                     id="awardImage"
                     name="awardImage"
