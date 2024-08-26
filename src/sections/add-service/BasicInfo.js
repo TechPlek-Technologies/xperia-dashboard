@@ -45,26 +45,26 @@ BannerUploadSection.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  images: PropTypes.object,
+  images: PropTypes.string,
   handleBannerImageChange: PropTypes.func.isRequired,
   formik: PropTypes.object.isRequired
 };
 
 const BasicInfo = ({ basicInfo, setBasicInfo, handleNext, setErrorIndex }) => {
   const [banner, setBanner] = useState(basicInfo.banner || null);
-  const [carousel1, setCarousel1] = useState(basicInfo.carousel1 || null);
-  const [carousel2, setCarousel2] = useState(basicInfo.carousel2 || null);
-  const [carousel3, setCarousel3] = useState(basicInfo.carousel3 || null);
-
+  const [carousel1, setCarousel1] = useState(JSON.parse(basicInfo.carousel1) || null);
+  const [carousel2, setCarousel2] = useState(JSON.parse(basicInfo.carousel2) || null);
+  const [carousel3, setCarousel3] = useState(JSON.parse(basicInfo.carousel3) || null);
+  console.log(basicInfo);
   const formik = useFormik({
     initialValues: {
       title: basicInfo.title || '',
       shortDescription: basicInfo.shortDescription || '',
       longDescription: basicInfo.longDescription || '',
       banner: basicInfo.banner || null,
-      carousel1: basicInfo.carousel1 || null,
-      carousel2: basicInfo.carousel2 || null,
-      carousel3: basicInfo.carousel3 || null,
+      carousel1: JSON.parse(basicInfo.carousel1) || null,
+      carousel2: JSON.parse(basicInfo.carousel2) || null,
+      carousel3: JSON.parse(basicInfo.carousel3) || null,
       files: []
     },
     validationSchema,

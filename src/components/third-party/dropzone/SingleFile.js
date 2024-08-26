@@ -21,6 +21,7 @@ const DropzoneWrapper = styled('div')(({ theme }) => ({
 const SingleFileUpload = ({ error, file, setFieldValue, sx, images, setImages, name }) => {
   const theme = useTheme();
 
+  console.log('images', images);
   const { getRootProps, getInputProps, isDragActive, isDragReject, fileRejections } = useDropzone({
     accept: {
       'image/*': []

@@ -22,7 +22,6 @@ import {
 } from 'components/third-party/ReactTable';
 
 import CustomerView from 'sections/apps/customer/CustomerView';
-import AlertCustomerDelete from 'sections/apps/customer/AlertCustomerDelete';
 
 // import makeData from 'data/react-table';
 import { renderFilterTypes, GlobalFilter } from 'utils/react-table';
@@ -33,6 +32,7 @@ import { ThemeMode } from 'config';
 import { getData } from 'utils/clientFunctions';
 import Loader from 'components/Loader';
 import { useNavigate } from 'react-router';
+import AlertCustomerDelete from './AlertCustomerDelete';
 
 // ==============================|| REACT TABLE ||============================== //
 

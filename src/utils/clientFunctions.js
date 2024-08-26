@@ -46,7 +46,6 @@ export async function getData(url, params = {}) {
   }
 }
 
-
 export async function deleteData(url, params = {}) {
   const axios = (await import('axios')).default;
 

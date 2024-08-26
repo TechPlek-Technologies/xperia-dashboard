@@ -3,10 +3,9 @@ import { useCallback, useEffect, useMemo, useState, Fragment } from 'react';
 
 // material-ui
 import { alpha, useTheme } from '@mui/material/styles';
-import { Button, Chip, Stack, Table, TableBody, TableCell, TableHead, TableRow, Tooltip, Typography, useMediaQuery } from '@mui/material';
+import { Button, Stack, Table, TableBody, TableCell, TableHead, TableRow, Tooltip, Typography, useMediaQuery } from '@mui/material';
 
 // third-party
-import { PatternFormat } from 'react-number-format';
 import { useFilters, useExpanded, useGlobalFilter, useRowSelect, useSortBy, useTable, usePagination } from 'react-table';
 
 // project-imports
@@ -29,7 +28,7 @@ import AlertCustomerDelete from 'sections/apps/customer/AlertCustomerDelete';
 import { renderFilterTypes, GlobalFilter } from 'utils/react-table';
 
 // assets
-import { Add, Edit, Eye, Trash } from 'iconsax-react';
+import { Add, Edit, Trash } from 'iconsax-react';
 import { ThemeMode } from 'config';
 import { getData } from 'utils/clientFunctions';
 import Loader from 'components/Loader';
@@ -42,7 +41,7 @@ function ReactTable({ columns, data, renderRowSubComponent, handleAdd }) {
   const matchDownSM = useMediaQuery(theme.breakpoints.down('sm'));
 
   const filterTypes = useMemo(() => renderFilterTypes, []);
-  const sortBy = { id: 'projectTitle', desc: false };
+  const sortBy = { id: 'blogTitle', desc: false };
 
   const {
     getTableProps,
@@ -198,30 +197,27 @@ const BlogPage = () => {
         className: 'cell-center'
       },
       {
-        Header: 'Project Name',
-        accessor: 'projectTitle',
+        Header: 'Blog Title',
+        accessor: 'blogTitle',
         Cell: ({ row }) => {
           const { values } = row;
 
           return (
             <Stack direction="row" spacing={1.5} alignItems="center">
               <Stack spacing={0}>
-                <Typography variant="subtitle1">{values.projectTitle}</Typography>
-                <Typography color="text.secondary">{values.firstName + ' ' + values.lastName}</Typography>
+                <Typography variant="subtitle1">{values.blogTitle}</Typography>
               </Stack>
             </Stack>
           );
         }
       },
       {
-        Header: 'Contact',
-        accessor: 'contact',
-        Cell: ({ value }) => <PatternFormat displayType="text" format="+1 (###) ###-####" mask="_" defaultValue={value} />
+        Header: 'Category',
+        accessor: 'category'
       },
-
       {
         Header: 'Publish Date',
-        accessor: 'publishDate'
+        accessor: 'createdAt'
       },
       {
         Header: 'First Name',
@@ -232,49 +228,12 @@ const BlogPage = () => {
         accessor: 'lastName'
       },
       {
-        Header: 'Display',
-        accessor: 'homepage',
-        Cell: ({ value }) => {
-          switch (value) {
-            case false:
-              return <Chip color="error" label="False" size="small" variant="light" />;
-            case true:
-              return <Chip color="success" label="Homepage" size="small" variant="light" />;
-            case undefined:
-            default:
-              return <Chip color="info" label="Single" size="small" variant="light" />;
-          }
-        }
-      },
-      {
         Header: 'Actions',
         className: 'cell-center',
         disableSortBy: true,
         Cell: ({ row }) => {
-          const collapseIcon = row.isExpanded ? <Add style={{ color: theme.palette.error.main, transform: 'rotate(45deg)' }} /> : <Eye />;
           return (
             <Stack direction="row" alignItems="center" justifyContent="center" spacing={0}>
-              <Tooltip
-                componentsProps={{
-                  tooltip: {
-                    sx: {
-                      backgroundColor: mode === ThemeMode.DARK ? theme.palette.grey[50] : theme.palette.grey[700],
-                      opacity: 0.9
-                    }
-                  }
-                }}
-                title="View"
-              >
-                <IconButton
-                  color="secondary"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    row.toggleRowExpanded();
-                  }}
-                >
-                  {collapseIcon}
-                </IconButton>
-              </Tooltip>
               <Tooltip
                 componentsProps={{
                   tooltip: {
@@ -333,7 +292,7 @@ const BlogPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const newData = await getData(`${process.env.REACT_APP_API_URL}/projects/all-project`);
+        const newData = await getData(`${process.env.REACT_APP_API_URL}/blogs/all-blogs`);
         setData(newData.data);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -361,7 +320,7 @@ BlogPage.propTypes = {
   values: PropTypes.object,
   avatar: PropTypes.object,
   message: PropTypes.string,
-  projectTitle: PropTypes.string,
+  blogTitle: PropTypes.string,
   email: PropTypes.string,
   value: PropTypes.object,
   isExpanded: PropTypes.bool,
