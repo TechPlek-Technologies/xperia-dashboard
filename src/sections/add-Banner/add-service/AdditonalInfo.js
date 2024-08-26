@@ -25,7 +25,7 @@ const AdditionalInfo = ({ additionalInfo, setAdditionalInfo, handleNext, handleB
     initialValues: {
       banner541x724: additionalInfo.banner541x724 || null,
       banner224x300: additionalInfo.banner224x300 || null,
-      files: []
+      // files: []
     },
     validationSchema,
     onSubmit: () => {
@@ -64,7 +64,7 @@ const AdditionalInfo = ({ additionalInfo, setAdditionalInfo, handleNext, handleB
                 images={banner541x724}
                 setFieldValue={formik.setFieldValue}
                 setImages={handleBannerImageChange541x724}
-                file={formik.values.files}
+                file={banner541x724}
                 error={formik.touched.banner541x724 && Boolean(formik.errors.banner541x724)}
                 helperText={formik.touched.banner541x724 && formik.errors.banner541x724}
               />
@@ -79,7 +79,7 @@ const AdditionalInfo = ({ additionalInfo, setAdditionalInfo, handleNext, handleB
                 images={banner224x300}
                 setFieldValue={formik.setFieldValue}
                 setImages={handleBannerImageChange224x300}
-                file={formik.values.files}
+                file={banner224x300}
                 error={formik.touched.banner224x300 && Boolean(formik.errors.banner224x300)}
                 helperText={formik.touched.banner224x300 && formik.errors.banner224x300}
               />

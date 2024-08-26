@@ -32,7 +32,7 @@ const BannerUploadSection = ({ id, name, label, images, handleBannerImageChange,
         images={images}
         setFieldValue={formik.setFieldValue}
         setImages={handleBannerImageChange}
-        file={formik.values.files}
+        file={formik.values.file}
         error={formik.touched[name] && Boolean(formik.errors[name])}
         helperText={formik.touched[name] && formik.errors[name]}
       />

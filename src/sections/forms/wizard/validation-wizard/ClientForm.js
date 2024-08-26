@@ -58,7 +58,7 @@ const ClientForm = ({ clientInfo, setClientInfo, handleNext, setErrorIndex }) =>
                 id="firstName"
                 name="firstName"
                 placeholder="First Name *"
-                value={formik.values.firstName}
+                value={formik.values.firstName || ''}
                 onChange={formik.handleChange}
                 error={formik.touched.firstName && Boolean(formik.errors.firstName)}
                 helperText={formik.touched.firstName && formik.errors.firstName}
@@ -74,7 +74,7 @@ const ClientForm = ({ clientInfo, setClientInfo, handleNext, setErrorIndex }) =>
                 id="lastName"
                 name="lastName"
                 placeholder="Last Name *"
-                value={formik.values.lastName}
+                value={formik.values.lastName || ''}
                 onChange={formik.handleChange}
                 error={formik.touched.lastName && Boolean(formik.errors.lastName)}
                 helperText={formik.touched.lastName && formik.errors.lastName}
@@ -90,7 +90,7 @@ const ClientForm = ({ clientInfo, setClientInfo, handleNext, setErrorIndex }) =>
                 id="projectType"
                 name="projectType"
                 placeholder="Project Type *"
-                value={formik.values.projectType}
+                value={formik.values.projectType || ''}
                 onChange={formik.handleChange}
                 error={formik.touched.projectType && Boolean(formik.errors.projectType)}
                 helperText={formik.touched.projectType && formik.errors.projectType}
@@ -105,7 +105,7 @@ const ClientForm = ({ clientInfo, setClientInfo, handleNext, setErrorIndex }) =>
                 id="companyName"
                 name="companyName"
                 placeholder="Company Name *"
-                value={formik.values.companyName}
+                value={formik.values.companyName || ''}
                 onChange={formik.handleChange}
                 error={formik.touched.companyName && Boolean(formik.errors.companyName)}
                 helperText={formik.touched.companyName && formik.errors.companyName}
@@ -121,7 +121,7 @@ const ClientForm = ({ clientInfo, setClientInfo, handleNext, setErrorIndex }) =>
                 id="companyOverview"
                 name="companyOverview"
                 placeholder="Company Overview *"
-                value={formik.values.companyOverview}
+                value={formik.values.companyOverview || ''}
                 onChange={formik.handleChange}
                 error={formik.touched.companyOverview && Boolean(formik.errors.companyOverview)}
                 helperText={formik.touched.companyOverview && formik.errors.companyOverview}
