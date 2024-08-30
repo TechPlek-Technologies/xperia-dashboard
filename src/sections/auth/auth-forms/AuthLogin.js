@@ -51,7 +51,7 @@ const AuthLogin = ({ forgot }) => {
     <>
       <Formik
         initialValues={{
-          email: 'info@phoenixcoded.co',
+          email: 'email',
           password: '123456',
           submit: null
         }}

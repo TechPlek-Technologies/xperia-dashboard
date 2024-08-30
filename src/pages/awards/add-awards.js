@@ -1,5 +1,5 @@
 // material-ui
-import { Button, Grid, InputLabel, Stack, TextField, FormHelperText, Select, MenuItem } from '@mui/material';
+import { Button, Grid, InputLabel, Stack, TextField, FormHelperText, Select, MenuItem, FormControl } from '@mui/material';
 
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -130,21 +130,24 @@ function AddAward() {
               <Grid item xs={12} lg={6}>
                 <Stack spacing={1}>
                   <InputLabel id="span">Award Type</InputLabel>
-                  <Select
-                    labelId="span"
-                    id="span"
-                    name="span"
-                    value={formik.values.span}
-                    onChange={formik.handleChange}
-                    error={formik.touched.span && Boolean(formik.errors.span)}
-                    // helperText={formik.touched.span && formik.errors.span}
-                    fullWidth
-                    placeholder="Award type"
-                  >
-                    <MenuItem value={'GOLD'}>Gold</MenuItem>
-                    <MenuItem value={'SILVER'}>Silver</MenuItem>
-                    <MenuItem value={'BRONZE'}>Bronze</MenuItem>
-                  </Select>
+                  <FormControl>
+                    <InputLabel id="span">Award Type</InputLabel>
+                    <Select
+                      labelId="span"
+                      id="span"
+                      name="span"
+                      value={formik.values.span}
+                      onChange={formik.handleChange}
+                      error={formik.touched.span && Boolean(formik.errors.span)}
+                      // helperText={formik.touched.span && formik.errors.span}
+                      fullWidth
+                      placeholder="Award type"
+                    >
+                      <MenuItem value={'GOLD'}>Gold</MenuItem>
+                      <MenuItem value={'SILVER'}>Silver</MenuItem>
+                      <MenuItem value={'BRONZE'}>Bronze</MenuItem>
+                    </Select>
+                  </FormControl>
                 </Stack>
               </Grid>
               <Grid item xs={12} lg={6}>

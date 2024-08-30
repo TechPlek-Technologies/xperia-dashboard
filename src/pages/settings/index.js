@@ -61,10 +61,10 @@ const SettingsPage = () => {
 
       if (response.success && response.data && response.data.length > 0) {
         const data = response.data[0];
-        setNavLogoImage(JSON.parse(data.navbarLogo));
-        setFooterLogoImage(JSON.parse(data.footerLogo));
-        setFavicon(JSON.parse(data.favicon));
-        setSidebarLogoImage(JSON.parse(data.sidebarLogo));
+        setNavLogoImage(data.navbarLogo);
+        setFooterLogoImage(data.footerLogo);
+        setFavicon(data.favicon);
+        setSidebarLogoImage(data.sidebarLogo);
         setContact({
           phoneNumber: data.phoneNumber,
           email: data.email,
