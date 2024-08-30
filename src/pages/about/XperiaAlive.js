@@ -7,6 +7,8 @@ import MainCard from 'components/MainCard';
 import Editor from 'sections/Editor/TextEditor';
 import { getData, postData } from 'utils/clientFunctions';
 import { useEffect, useState } from 'react';
+import { dispatch } from 'store';
+import { openSnackbar } from 'store/reducers/snackbar';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
@@ -44,6 +46,39 @@ const XperiaAlive = ({ title }) => {
       setKey(key + 1);
     }
     console.log(response);
+    if (response.success) {
+      dispatch(
+        openSnackbar({
+          open: true,
+          message: 'Details added successfully.',
+          variant: 'alert',
+          // anchorOrigin: {
+          //   vertical: 'top',
+          //   horizontal: 'right'
+          // },
+          alert: {
+            color: 'success'
+          },
+          close: false
+        })
+      );
+    } else {
+      dispatch(
+        openSnackbar({
+          open: true,
+          message: 'Failed to add details. Please try again.',
+          variant: 'alert',
+          // anchorOrigin: {
+          //   vertical: 'top',
+          //   horizontal: 'right'
+          // },
+          alert: {
+            color: 'error'
+          },
+          close: false
+        })
+      );
+    }
     // Optionally, you can update the state here if you need to reflect changes immediately
   };
   return (

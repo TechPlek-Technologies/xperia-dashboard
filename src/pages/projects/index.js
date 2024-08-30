@@ -169,6 +169,14 @@ const ProjectPage = () => {
     navigate('/add-project', { replace: true });
   };
 
+  const handleUpdate = (data) => {
+    if (data && data.id) {
+      navigate(`/update-project/${data.id}`, { replace: true });
+    } else {
+      console.error('Error: project or project.id is undefined');
+    }
+  };
+
   const handleClose = () => {
     setOpen(!open);
   };
@@ -258,7 +266,7 @@ const ProjectPage = () => {
                   onClick={(e) => {
                     e.stopPropagation();
                     setCustomer(row.values);
-                    handleAdd();
+                    handleUpdate(row.values);
                   }}
                 >
                   <Edit />

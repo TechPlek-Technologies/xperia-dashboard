@@ -5,12 +5,13 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 // project-imports
 import MainCard from 'components/MainCard';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AnimateButton from 'components/@extended/AnimateButton';
 import SingleFileUpload from 'components/third-party/dropzone/SingleFile';
-import { postData } from 'utils/clientFunctions';
+import { getData, postData } from 'utils/clientFunctions';
 import { dispatch } from 'store';
 import { openSnackbar } from 'store/reducers/snackbar';
+import { useParams } from 'react-router';
 
 // assets
 
@@ -25,27 +26,31 @@ const validationSchema = yup.object({
 function AddAward() {
   const [awardData, setAwardData] = useState({});
   const [image, setImage] = useState(null);
+  const { id } = useParams();
 
   const formik = useFormik({
     initialValues: {
       title: awardData.title || '',
       year: awardData.designation || '',
       description: awardData.description || '',
-      awardImage: awardData.awardImage || null
+      awardImage: image
       // files: []
     },
+    enableReinitialize: true,
     validationSchema,
     onSubmit: async (values) => {
       // Update the basicInfo state with all form values including bannerImages
-      setAwardData({
+
+      const payload = {
+        id: awardData.id,
         title: values.title,
         year: values.year,
         description: values.description,
         awardImage: image
-      });
+      };
 
       console.log(awardData);
-      const response = await postData(`${process.env.REACT_APP_API_URL}/awards`, awardData);
+      const response = await postData(`${process.env.REACT_APP_API_URL}/awards`, payload);
       console.log(response);
       if (response.success) {
         dispatch(
@@ -91,6 +96,38 @@ function AddAward() {
       awardImage: images
     }));
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const newData = await getData(`${process.env.REACT_APP_API_URL}/awards/${id}`);
+        console.log(newData);
+
+        if (newData.success) {
+          setAwardData({
+            id: newData.data.id,
+            title: newData.data.title,
+            description: newData.data.description,
+            designation: newData.data.year
+          });
+          setImage(newData.data.awardImage);
+        } else {
+          setAwardData({
+            id: ' ',
+            title: ' ',
+            description: ' ',
+            designation: ' '
+          });
+          setImage(null);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, [id]);
+
   return (
     <form onSubmit={formik.handleSubmit} id="validation-forms">
       <Grid container spacing={3}>

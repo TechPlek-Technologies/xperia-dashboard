@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+
 // material-ui
 import { Button, Step, Stepper, StepLabel, Stack, Typography } from '@mui/material';
 
@@ -9,12 +10,11 @@ import PaymentForm from './AdditonalInfo';
 import Review from './Review';
 import MainCard from 'components/MainCard';
 import AnimateButton from 'components/@extended/AnimateButton';
-import { postData } from 'utils/clientFunctions';
+import { getData, postData } from 'utils/clientFunctions';
 import { dispatch } from 'store';
 import { openSnackbar } from 'store/reducers/snackbar';
-
 // step options
-const steps = ['Primary Information', 'Additonal Information', 'Confirmation'];
+const steps = ['Primary Image', 'Secondary Image', 'Confirmation'];
 
 const getStepContent = (step, handleNext, handleBack, setErrorIndex, basicInfo, setBasicInfo, additionalInfo, setAdditionalInfo) => {
   switch (step) {
@@ -39,51 +39,28 @@ const getStepContent = (step, handleNext, handleBack, setErrorIndex, basicInfo, 
 
 // ==============================|| FORMS WIZARD - VALIDATION ||============================== //
 
-const AddServices = ({ serviceTitle, slug, serviceData }) => {
+const UpdateBanners = () => {
   const [activeStep, setActiveStep] = useState(0);
-  const [basicInfo, setBasicInfo] = useState({
-    title: serviceData.title || null,
-    shortDescription: serviceData.shortDescription || null,
-    longDescription: serviceData.longDescription || null,
-    banner: serviceData.banner || null,
-    carousel1: serviceData.carousel1 || null,
-    carousel2: serviceData.carousel2 || null,
-    carousel3: serviceData.carousel3 || null
-  });
-  const [additionalInfo, setAdditionalInfo] = useState({
-    title1: serviceData.title1 || null,
-    title2: serviceData.title2 || null,
-    title3: serviceData.title3 || null,
-    title4: serviceData.title4 || null,
-    title5: serviceData.title5 || null,
-    content1: serviceData.content1 || null,
-    content2: serviceData.content2 || null,
-    content3: serviceData.content3 || null,
-    content4: serviceData.content4 || null,
-    content5: serviceData.content5 || null
-  });
+  const [basicInfo, setBasicInfo] = useState({});
+  const [additionalInfo, setAdditionalInfo] = useState({});
   const [errorIndex, setErrorIndex] = useState(null);
+  const { title } = useParams();
 
-  function removeFirstSlash(str) {
-    // Replace only the first occurrence of /
-    return str.replace('/', '');
-  }
   const handleNext = async () => {
     const combinedData = {
       ...basicInfo,
       ...additionalInfo,
-      slug: removeFirstSlash(slug)
+      
     };
-    console.log(slug);
 
     if (activeStep === steps.length - 1) {
-      const response = await postData(`${process.env.REACT_APP_API_URL}/services`, combinedData);
+      const response = await postData(`${process.env.REACT_APP_API_URL}/home-banner`, combinedData);
       console.log(response);
       if (response.success) {
         dispatch(
           openSnackbar({
             open: true,
-            message: 'Details added successfully.',
+            message: 'Banner updated successfully.',
             variant: 'alert',
             // anchorOrigin: {
             //   vertical: 'top',
@@ -99,7 +76,7 @@ const AddServices = ({ serviceTitle, slug, serviceData }) => {
         dispatch(
           openSnackbar({
             open: true,
-            message: 'Failed to add details. Please try again.',
+            message: 'Failed to update banner. Please try again.',
             variant: 'alert',
             // anchorOrigin: {
             //   vertical: 'top',
@@ -125,8 +102,49 @@ const AddServices = ({ serviceTitle, slug, serviceData }) => {
     setActiveStep(activeStep - 1);
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const decodedTitle = decodeURIComponent(title);      
+        const newData = await getData(`${process.env.REACT_APP_API_URL}/home-banner/find-by-title/${decodedTitle}`);
+        console.log(newData);
+        
+        if (newData.success) {
+          setBasicInfo({
+            title:newData.data.title,
+            main1259x724:newData.data.main1259x724,
+            sub1024x589:newData.data.sub1024x589,
+            sub768x442:newData.data.sub768x442,
+            sub300x173:newData.data.sub300x173,
+          });
+          setAdditionalInfo({
+            banner541x724: newData.data.banner541x724,
+            banner224x300: newData.data.banner224x300
+          })
+        } else {
+          setBasicInfo({
+            title:' ',
+            main1259x724:' ',
+            sub1024x589:' ',
+            sub768x442:' ',
+            sub300x173:' ',
+
+          });
+          setAdditionalInfo({
+            banner541x724: ' ',
+            banner224x300: ' '
+          })
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, [title]);
+
   return (
-    <MainCard title={serviceTitle}>
+    <MainCard title="Update Banner">
       <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
         {steps.map((label, index) => {
           const labelProps = {};
@@ -152,15 +170,17 @@ const AddServices = ({ serviceTitle, slug, serviceData }) => {
         {activeStep === steps.length ? (
           <>
             <Typography variant="h5" gutterBottom>
-              Service Added Successfully
+              Banner Updated Successfully
             </Typography>
-            <Typography variant="subtitle1">Service is now live on website</Typography>
+            <Typography variant="subtitle1">Banner is now live on website</Typography>
             <Stack direction="row" justifyContent="flex-end">
               <AnimateButton>
                 <Button
                   variant="contained"
                   color="error"
                   onClick={() => {
+                    setBasicInfo({});
+                    setAdditionalInfo({});
                     setActiveStep(0);
                   }}
                   sx={{ my: 3, ml: 1 }}
@@ -194,11 +214,4 @@ const AddServices = ({ serviceTitle, slug, serviceData }) => {
   );
 };
 
-export default AddServices;
-
-AddServices.propTypes = {
-  serviceTitle: PropTypes.string,
-  services: PropTypes.string,
-  slug: PropTypes.string,
-  serviceData: PropTypes.object
-};
+export default UpdateBanners;

@@ -24,9 +24,10 @@ const AdditionalInfo = ({ additionalInfo, setAdditionalInfo, handleNext, handleB
   const formik = useFormik({
     initialValues: {
       banner541x724: additionalInfo.banner541x724 || null,
-      banner224x300: additionalInfo.banner224x300 || null,
+      banner224x300: additionalInfo.banner224x300 || null
       // files: []
     },
+    enableReinitialize: true,
     validationSchema,
     onSubmit: () => {
       setAdditionalInfo({

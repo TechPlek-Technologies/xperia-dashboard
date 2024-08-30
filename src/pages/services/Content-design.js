@@ -16,6 +16,7 @@ const ContentDesign = () => {
     const fetchData = async () => {
       try {
         const newData = await getData(`${process.env.REACT_APP_API_URL}/services/find-by-slug${pathname}`);
+        console.log(newData);
 
         setServiceData(newData.data);
         if (newData.success) {

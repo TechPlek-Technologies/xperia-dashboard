@@ -170,12 +170,20 @@ const ProjectPage = () => {
   const [customer, setCustomer] = useState(null);
   const [customerDeleteId, setCustomerDeleteId] = useState('');
   const [delete1, setDelete] = useState(1);
+  const [data, setData] = useState(null);
   const navigate = useNavigate();
   console.log(customer);
 
-  const [data, setData] = useState(null);
   const handleAdd = () => {
     navigate('/add-team', { replace: true });
+  };
+  
+  const handleUpdate = (data) => {
+    if (data && data.id) {
+      navigate(`/update-team/${data.id}`, { replace: true });
+    } else {
+      console.error('Error: team or team.id is undefined');
+    }
   };
 
   const handleClose = () => {
@@ -252,7 +260,7 @@ const ProjectPage = () => {
                   onClick={(e) => {
                     e.stopPropagation();
                     setCustomer(row.values);
-                    handleAdd();
+                    handleUpdate(row.values);
                   }}
                 >
                   <Edit />

@@ -30,6 +30,7 @@ const ClientForm = ({ clientInfo, setClientInfo, handleNext, setErrorIndex }) =>
       companyOverview: clientInfo.companyOverview,
       homepage: clientInfo.homepage
     },
+    enableReinitialize: true,
     validationSchema,
     onSubmit: (values) => {
       setClientInfo({

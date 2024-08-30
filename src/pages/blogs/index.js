@@ -6,6 +6,7 @@ import { alpha, useTheme } from '@mui/material/styles';
 import { Button, Stack, Table, TableBody, TableCell, TableHead, TableRow, Tooltip, Typography, useMediaQuery } from '@mui/material';
 
 // third-party
+// import { PatternFormat } from 'react-number-format';
 import { useFilters, useExpanded, useGlobalFilter, useRowSelect, useSortBy, useTable, usePagination } from 'react-table';
 
 // project-imports
@@ -29,7 +30,7 @@ import { renderFilterTypes, GlobalFilter } from 'utils/react-table';
 // assets
 import { Add, Edit, Trash } from 'iconsax-react';
 import { ThemeMode } from 'config';
-import { formatDate, getData } from 'utils/clientFunctions';
+import { getData } from 'utils/clientFunctions';
 import Loader from 'components/Loader';
 import { useNavigate } from 'react-router';
 import AlertCustomerDelete from './AlertCustomerDelete';
@@ -169,13 +170,21 @@ const BlogPage = () => {
   const [open, setOpen] = useState(false);
   const [customer, setCustomer] = useState(null);
   const [customerDeleteId, setCustomerDeleteId] = useState('');
+  const [data, setData] = useState(null);
   const [delete1, setDelete] = useState(1);
   const navigate = useNavigate();
   console.log(customer);
 
-  const [data, setData] = useState(null);
   const handleAdd = () => {
     navigate('/add-blogs', { replace: true });
+  };
+
+  const handleUpdate = (data) => {
+    if (data && data.id) {
+      navigate(`/update-blog/${data.id}`, { replace: true });
+    } else {
+      console.error('Error: banner or banner.id is undefined');
+    }
   };
 
   const handleClose = () => {
@@ -197,7 +206,7 @@ const BlogPage = () => {
         className: 'cell-center'
       },
       {
-        Header: 'Blog Title',
+        Header: 'Blog Name',
         accessor: 'blogTitle',
         Cell: ({ row }) => {
           const { values } = row;
@@ -205,7 +214,7 @@ const BlogPage = () => {
           return (
             <Stack direction="row" spacing={1.5} alignItems="center">
               <Stack spacing={0}>
-                <Typography>{values.blogTitle}</Typography>
+                <Typography variant="subtitle1">{values.blogTitle}</Typography>
               </Stack>
             </Stack>
           );
@@ -213,30 +222,45 @@ const BlogPage = () => {
       },
       {
         Header: 'Category',
-        accessor: 'category'
-      },
-      {
-        Header: 'Publish Date',
-        accessor: 'createdAt',
+        accessor: 'category',
         Cell: ({ row }) => {
           const { values } = row;
 
           return (
             <Stack direction="row" spacing={1.5} alignItems="center">
               <Stack spacing={0}>
-                <Typography variant="subtitle1">{formatDate(values.createdAt)}</Typography>
+                <Typography variant="subtitle1">{values.category}</Typography>
               </Stack>
             </Stack>
           );
         }
       },
       {
-        Header: 'First Name',
-        accessor: 'firstName'
+        Header: 'Description',
+        accessor: 'description',
+        Cell: ({ row }) => {
+          const { values } = row;
+
+          return (
+            <Stack direction="row" spacing={1.5} alignItems="center">
+              <Stack spacing={0}>
+                <Typography variant="subtitle1">{values.description}</Typography>
+              </Stack>
+            </Stack>
+          );
+        }
       },
       {
-        Header: 'Last Name',
-        accessor: 'lastName'
+        Header: 'Publish Date',
+        accessor: 'createdAt',
+        Cell: ({ value }) => {
+          const formattedDate = new Date(value).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          });
+          return <Typography variant="subtitle2">{formattedDate}</Typography>;
+        }
       },
       {
         Header: 'Actions',
@@ -261,7 +285,7 @@ const BlogPage = () => {
                   onClick={(e) => {
                     e.stopPropagation();
                     setCustomer(row.values);
-                    handleAdd();
+                    handleUpdate(row.values);
                   }}
                 >
                   <Edit />
@@ -304,6 +328,7 @@ const BlogPage = () => {
     const fetchData = async () => {
       try {
         const newData = await getData(`${process.env.REACT_APP_API_URL}/blogs/all-blogs`);
+        console.log(newData);
         setData(newData.data);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -332,6 +357,8 @@ BlogPage.propTypes = {
   avatar: PropTypes.object,
   message: PropTypes.string,
   blogTitle: PropTypes.string,
+  category: PropTypes.string,
+  description: PropTypes.string,
   email: PropTypes.string,
   value: PropTypes.object,
   isExpanded: PropTypes.bool,

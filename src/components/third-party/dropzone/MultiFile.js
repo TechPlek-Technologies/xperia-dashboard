@@ -8,6 +8,7 @@ import { Box, Button, Stack } from '@mui/material';
 import { useDropzone } from 'react-dropzone';
 
 // project-imports
+
 import { DropzopType } from 'config';
 import RejectionFiles from './RejectionFiles';
 import PlaceholderContent from './PlaceholderContent';
@@ -28,30 +29,26 @@ const DropzoneWrapper = styled('div')(({ theme }) => ({
 const MultiFileUpload = ({ error, showList = false, files, type, setFieldValue, sx, onUpload }) => {
   const { getRootProps, getInputProps, isDragActive, isDragReject, fileRejections } = useDropzone({
     multiple: true,
-    onDrop: (acceptedFiles) => {
-      acceptedFiles.map(async (file) => {
+    onDrop: async (acceptedFiles) => {
+      // Use forEach instead of map because you are not returning a new array
+      for (const file of acceptedFiles) {
         await addNewFilesLocal(file);
-      });
+      }
+    
+      // Handle setting the field value with the updated files
+      const updatedFiles = acceptedFiles.map((file) => 
+        Object.assign(file, {
+          preview: URL.createObjectURL(file)
+        })
+      );
+    
       if (files) {
-        setFieldValue('files', [
-          ...files,
-          ...acceptedFiles.map((file) =>
-            Object.assign(file, {
-              preview: URL.createObjectURL(file)
-            })
-          )
-        ]);
+        setFieldValue('files', [...files, ...updatedFiles]);
       } else {
-        setFieldValue(
-          'files',
-          acceptedFiles.map((file) =>
-            Object.assign(file, {
-              preview: URL.createObjectURL(file)
-            })
-          )
-        );
+        setFieldValue('files', updatedFiles);
       }
     }
+    
   });
 
   const onRemoveAll = () => {

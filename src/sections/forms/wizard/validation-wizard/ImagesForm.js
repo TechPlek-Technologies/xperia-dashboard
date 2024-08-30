@@ -21,15 +21,16 @@ import { useState } from 'react';
 export default function ImagesForm({
   iconImages,
   bannerImages,
-  // carouselImages,
-  // projectImages,
+  carouselImages,
+  projectImages,
   setProjectImages,
   setCarouselImages,
   setBannerImages,
   setIconImages
 }) {
   const [list, setList] = useState(false);
-
+  const [list1, setList1] = useState(false);
+  console.log(carouselImages, projectImages);
   return (
     <>
       <Grid container spacing={3}>
@@ -118,7 +119,7 @@ export default function ImagesForm({
             }
           >
             <Formik
-              initialValues={{ files: null }}
+              initialValues={{ files: projectImages || [] }}
               onSubmit={() => {
                 // submit form
               }}
@@ -133,7 +134,7 @@ export default function ImagesForm({
                       <Stack spacing={1.5} alignItems="center">
                         <UploadMultiFile
                           name="files"
-                          showList={true}
+                          showList={list}
                           setFieldValue={setFieldValue}
                           files={values.files}
                           onUpload={async () => {
@@ -161,17 +162,17 @@ export default function ImagesForm({
             title="Upload Carousel Images"
             secondary={
               <Stack direction="row" alignItems="center" spacing={1.25}>
-                <IconButton color={list ? 'secondary' : 'primary'} size="small" onClick={() => setList(false)}>
+                <IconButton color={list ? 'secondary' : 'primary'} size="small" onClick={() => setList1(false)}>
                   <TableDocument style={{ fontSize: '1.15rem' }} />
                 </IconButton>
-                <IconButton color={list ? 'primary' : 'secondary'} size="small" onClick={() => setList(true)}>
+                <IconButton color={list ? 'primary' : 'secondary'} size="small" onClick={() => setList1(true)}>
                   <Category style={{ fontSize: '1.15rem' }} />
                 </IconButton>
               </Stack>
             }
           >
             <Formik
-              initialValues={{ files: null }}
+              initialValues={{ files: carouselImages || [] }}
               onSubmit={() => {
                 // submit form
               }}
@@ -186,7 +187,7 @@ export default function ImagesForm({
                       <Stack spacing={1.5} alignItems="center">
                         <UploadMultiFile
                           name="files"
-                          showList={list}
+                          showList={list1}
                           setFieldValue={setFieldValue}
                           files={values.files}
                           error={touched.files && !!errors.files}
