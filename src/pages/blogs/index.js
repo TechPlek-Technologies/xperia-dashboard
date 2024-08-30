@@ -22,7 +22,6 @@ import {
 } from 'components/third-party/ReactTable';
 
 import CustomerView from 'sections/apps/customer/CustomerView';
-import AlertCustomerDelete from 'sections/apps/customer/AlertCustomerDelete';
 
 // import makeData from 'data/react-table';
 import { renderFilterTypes, GlobalFilter } from 'utils/react-table';
@@ -30,9 +29,10 @@ import { renderFilterTypes, GlobalFilter } from 'utils/react-table';
 // assets
 import { Add, Edit, Trash } from 'iconsax-react';
 import { ThemeMode } from 'config';
-import { getData } from 'utils/clientFunctions';
+import { formatDate, getData } from 'utils/clientFunctions';
 import Loader from 'components/Loader';
 import { useNavigate } from 'react-router';
+import AlertCustomerDelete from './AlertCustomerDelete';
 
 // ==============================|| REACT TABLE ||============================== //
 
@@ -205,7 +205,7 @@ const BlogPage = () => {
           return (
             <Stack direction="row" spacing={1.5} alignItems="center">
               <Stack spacing={0}>
-                <Typography variant="subtitle1">{values.blogTitle}</Typography>
+                <Typography>{values.blogTitle}</Typography>
               </Stack>
             </Stack>
           );
@@ -217,7 +217,18 @@ const BlogPage = () => {
       },
       {
         Header: 'Publish Date',
-        accessor: 'createdAt'
+        accessor: 'createdAt',
+        Cell: ({ row }) => {
+          const { values } = row;
+
+          return (
+            <Stack direction="row" spacing={1.5} alignItems="center">
+              <Stack spacing={0}>
+                <Typography variant="subtitle1">{formatDate(values.createdAt)}</Typography>
+              </Stack>
+            </Stack>
+          );
+        }
       },
       {
         Header: 'First Name',

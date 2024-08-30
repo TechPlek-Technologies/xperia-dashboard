@@ -21,6 +21,7 @@ const validationSchema = yup.object({
 function Editor({ slug, titleText, aboutData, setAboutData, handleSubmit }) {
   const [image, setImage] = useState(JSON.parse(aboutData.aboutImage) || null);
   console.log('aboutData');
+  
   const formik = useFormik({
     initialValues: {
       title: aboutData.name || '',

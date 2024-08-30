@@ -27,7 +27,7 @@ import CustomerView from 'sections/apps/customer/CustomerView';
 import { renderFilterTypes, GlobalFilter } from 'utils/react-table';
 
 // assets
-import { Add, Edit, Eye, Trash } from 'iconsax-react';
+import { Add, Edit, Trash } from 'iconsax-react';
 import { ThemeMode } from 'config';
 import { getData } from 'utils/clientFunctions';
 import Loader from 'components/Loader';
@@ -234,30 +234,8 @@ const ProjectPage = () => {
         className: 'cell-center',
         disableSortBy: true,
         Cell: ({ row }) => {
-          const collapseIcon = row.isExpanded ? <Add style={{ color: theme.palette.error.main, transform: 'rotate(45deg)' }} /> : <Eye />;
           return (
             <Stack direction="row" alignItems="center" justifyContent="center" spacing={0}>
-              <Tooltip
-                componentsProps={{
-                  tooltip: {
-                    sx: {
-                      backgroundColor: mode === ThemeMode.DARK ? theme.palette.grey[50] : theme.palette.grey[700],
-                      opacity: 0.9
-                    }
-                  }
-                }}
-                title="View"
-              >
-                <IconButton
-                  color="secondary"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    row.toggleRowExpanded();
-                  }}
-                >
-                  {collapseIcon}
-                </IconButton>
-              </Tooltip>
               <Tooltip
                 componentsProps={{
                   tooltip: {

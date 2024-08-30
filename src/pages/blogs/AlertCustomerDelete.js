@@ -35,7 +35,6 @@ export default function AlertCustomerDelete({ title, open, handleClose, delete1,
             <Typography variant="h4" align="center">
               Are you sure you want to delete?
             </Typography>
-            <Typography align="center">Deleted project data cannot be recovered</Typography>
           </Stack>
 
           <Stack direction="row" spacing={2} sx={{ width: 1 }}>
@@ -47,7 +46,7 @@ export default function AlertCustomerDelete({ title, open, handleClose, delete1,
               color="error"
               variant="contained"
               onClick={() => {
-                const response = deleteData(`${process.env.REACT_APP_API_URL}/home-banner/${title}`);
+                const response = deleteData(`${process.env.REACT_APP_API_URL}/blogs/${title}`);
                 if (response.success) {
                   setDelete(delete1 + 1);
                 }
@@ -56,7 +55,7 @@ export default function AlertCustomerDelete({ title, open, handleClose, delete1,
               autoFocus
             >
               Delete
-            </Button>``
+            </Button>
           </Stack>
         </Stack>
       </DialogContent>

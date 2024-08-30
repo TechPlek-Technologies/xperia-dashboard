@@ -117,3 +117,9 @@ export const generateSlug = (text) => {
     .replace(/--+/g, '-') // Replace multiple hyphens with a single hyphen
     .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
 };
+
+export const formatDate = (isoDateStr) => {
+  const date = new Date(isoDateStr);
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  return date.toLocaleDateString('en-US', options);
+};
