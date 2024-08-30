@@ -3,10 +3,10 @@ import { useCallback, useEffect, useMemo, useState, Fragment } from 'react';
 
 // material-ui
 import { alpha, useTheme } from '@mui/material/styles';
-import { Button, Chip, Stack, Table, TableBody, TableCell, TableHead, TableRow, Tooltip, Typography, useMediaQuery } from '@mui/material';
+import { Button, Stack, Table, TableBody, TableCell, TableHead, TableRow, Tooltip, Typography, useMediaQuery } from '@mui/material';
 
 // third-party
-import { PatternFormat } from 'react-number-format';
+// import { PatternFormat } from 'react-number-format';
 import { useFilters, useExpanded, useGlobalFilter, useRowSelect, useSortBy, useTable, usePagination } from 'react-table';
 
 // project-imports
@@ -42,7 +42,7 @@ function ReactTable({ columns, data, renderRowSubComponent, handleAdd }) {
   const matchDownSM = useMediaQuery(theme.breakpoints.down('sm'));
 
   const filterTypes = useMemo(() => renderFilterTypes, []);
-  const sortBy = { id: 'projectTitle', desc: false };
+  const sortBy = { id: 'blogTitle', desc: false };
 
   const {
     getTableProps,
@@ -170,13 +170,21 @@ const BlogPage = () => {
   const [open, setOpen] = useState(false);
   const [customer, setCustomer] = useState(null);
   const [customerDeleteId, setCustomerDeleteId] = useState('');
+  const [data, setData] = useState(null);
   const [delete1, setDelete] = useState(1);
   const navigate = useNavigate();
   console.log(customer);
 
-  const [data, setData] = useState(null);
   const handleAdd = () => {
     navigate('/add-blogs', { replace: true });
+  };
+
+  const handleUpdate = (data) => {
+    if (data && data.id) {
+      navigate(`/update-blog/${data.id}`, { replace: true });
+    } else {
+      console.error('Error: banner or banner.id is undefined');
+    }
   };
 
   const handleClose = () => {
@@ -198,52 +206,60 @@ const BlogPage = () => {
         className: 'cell-center'
       },
       {
-        Header: 'Project Name',
-        accessor: 'projectTitle',
+        Header: 'Blog Name',
+        accessor: 'blogTitle',
         Cell: ({ row }) => {
           const { values } = row;
 
           return (
             <Stack direction="row" spacing={1.5} alignItems="center">
               <Stack spacing={0}>
-                <Typography variant="subtitle1">{values.projectTitle}</Typography>
-                <Typography color="text.secondary">{values.firstName + ' ' + values.lastName}</Typography>
+                <Typography variant="subtitle1">{values.blogTitle}</Typography>
               </Stack>
             </Stack>
           );
         }
       },
       {
-        Header: 'Contact',
-        accessor: 'contact',
-        Cell: ({ value }) => <PatternFormat displayType="text" format="+1 (###) ###-####" mask="_" defaultValue={value} />
-      },
+        Header: 'Category',
+        accessor: 'category',
+        Cell: ({ row }) => {
+          const { values } = row;
 
+          return (
+            <Stack direction="row" spacing={1.5} alignItems="center">
+              <Stack spacing={0}>
+                <Typography variant="subtitle1">{values.category}</Typography>
+              </Stack>
+            </Stack>
+          );
+        }
+      },
+      {
+        Header: 'Description',
+        accessor: 'description',
+        Cell: ({ row }) => {
+          const { values } = row;
+
+          return (
+            <Stack direction="row" spacing={1.5} alignItems="center">
+              <Stack spacing={0}>
+                <Typography variant="subtitle1">{values.description}</Typography>
+              </Stack>
+            </Stack>
+          );
+        }
+      },
       {
         Header: 'Publish Date',
-        accessor: 'publishDate'
-      },
-      {
-        Header: 'First Name',
-        accessor: 'firstName'
-      },
-      {
-        Header: 'Last Name',
-        accessor: 'lastName'
-      },
-      {
-        Header: 'Display',
-        accessor: 'homepage',
+        accessor: 'createdAt',
         Cell: ({ value }) => {
-          switch (value) {
-            case false:
-              return <Chip color="error" label="False" size="small" variant="light" />;
-            case true:
-              return <Chip color="success" label="Homepage" size="small" variant="light" />;
-            case undefined:
-            default:
-              return <Chip color="info" label="Single" size="small" variant="light" />;
-          }
+          const formattedDate = new Date(value).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          });
+          return <Typography variant="subtitle2">{formattedDate}</Typography>;
         }
       },
       {
@@ -291,7 +307,7 @@ const BlogPage = () => {
                   onClick={(e) => {
                     e.stopPropagation();
                     setCustomer(row.values);
-                    handleAdd();
+                    handleUpdate(row.values);
                   }}
                 >
                   <Edit />
@@ -333,7 +349,8 @@ const BlogPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const newData = await getData(`${process.env.REACT_APP_API_URL}/projects/all-project`);
+        const newData = await getData(`${process.env.REACT_APP_API_URL}/blogs/all-blogs`);
+        console.log(newData);
         setData(newData.data);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -361,7 +378,9 @@ BlogPage.propTypes = {
   values: PropTypes.object,
   avatar: PropTypes.object,
   message: PropTypes.string,
-  projectTitle: PropTypes.string,
+  blogTitle: PropTypes.string,
+  category: PropTypes.string,
+  description: PropTypes.string,
   email: PropTypes.string,
   value: PropTypes.object,
   isExpanded: PropTypes.bool,

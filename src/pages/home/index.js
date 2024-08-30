@@ -178,6 +178,14 @@ const HomePage = () => {
     navigate('/add-banner', { replace: true });
   };
 
+  const handleUpdate = (data) => {
+    if (data && data.title) {
+      navigate(`/update-banner/${data.title}`, { replace: true });
+    } else {
+      console.error('Error: banner or banner.title is undefined');
+    }
+  };
+
   const handleClose = () => {
     setOpen(!open);
   };
@@ -256,7 +264,7 @@ const HomePage = () => {
                   onClick={(e) => {
                     e.stopPropagation();
                     setCustomer(row.values);
-                    handleAdd();
+                    handleUpdate(row.values);
                   }}
                 >
                   <Edit />

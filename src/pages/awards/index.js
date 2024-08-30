@@ -178,6 +178,14 @@ const AwardsPage = () => {
     navigate('/add-award', { replace: true });
   };
 
+  const handleUpdate = (data) => {
+    if (data && data.id) {
+      navigate(`/update-award/${data.id}`, { replace: true });
+    } else {
+      console.error('Error: team or team.id is undefined');
+    }
+  };
+
   const handleClose = () => {
     setOpen(!open);
   };
@@ -264,7 +272,7 @@ const AwardsPage = () => {
                   onClick={(e) => {
                     e.stopPropagation();
                     setCustomer(row.values);
-                    handleAdd();
+                    handleUpdate(row.values);
                   }}
                 >
                   <Edit />

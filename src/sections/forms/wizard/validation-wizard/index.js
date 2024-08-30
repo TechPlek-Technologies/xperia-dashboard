@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 // material-ui
 import { Button, Step, Stepper, StepLabel, Stack, Typography } from '@mui/material';
@@ -9,7 +9,10 @@ import ProjectForm from './ProjectForm';
 import Review from './ImagesForm';
 import MainCard from 'components/MainCard';
 import AnimateButton from 'components/@extended/AnimateButton';
-import { generateSlug, postData } from 'utils/clientFunctions';
+import { generateSlug, getData, postData } from 'utils/clientFunctions';
+import { dispatch } from 'store';
+import { openSnackbar } from 'store/reducers/snackbar';
+import { useParams } from 'react-router';
 
 // step options
 const steps = ['Client Information', 'Project details', 'Add Images'];
@@ -63,10 +66,11 @@ const getStepContent = (
   }
 };
 
-const uploadProject = async (projectDetails, iconImages, bannerImages, projectImages, carouselImages) => {
+const uploadProject = async (id, projectDetails, iconImages, bannerImages, projectImages, carouselImages) => {
   const data = {};
 
   // Append project details
+  data.id = id;
   data.companyName = projectDetails.companyName;
   data.companyOverview = projectDetails.companyOverview;
   data.firstName = projectDetails.firstName;
@@ -111,6 +115,7 @@ const ValidationWizard = () => {
   const [bannerImages, setBannerImages] = useState(null);
   const [iconImages, setIconImages] = useState(null);
   const [errorIndex, setErrorIndex] = useState(null);
+  const { id } = useParams();
 
   const handleNext = async () => {
     if (activeStep === steps.length - 1) {
@@ -134,9 +139,41 @@ const ValidationWizard = () => {
           category: projectInfo.category,
           homepage: clientInfo.homepage ? true : false
         };
-        const response = await uploadProject(projectDetails, iconImages, bannerImages, projectImages, carouselImages);
+      
+        const response = await uploadProject(id, projectDetails, iconImages, bannerImages, projectImages, carouselImages);
         if (response.success) {
           setActiveStep(activeStep + 1);
+          dispatch(
+            openSnackbar({
+              open: true,
+              message: 'Details added successfully.',
+              variant: 'alert',
+              // anchorOrigin: {
+              //   vertical: 'top',
+              //   horizontal: 'right'
+              // },
+              alert: {
+                color: 'success'
+              },
+              close: false
+            })
+          );
+        } else {
+          dispatch(
+            openSnackbar({
+              open: true,
+              message: 'Failed to add details. Please try again.',
+              variant: 'alert',
+              // anchorOrigin: {
+              //   vertical: 'top',
+              //   horizontal: 'right'
+              // },
+              alert: {
+                color: 'error'
+              },
+              close: false
+            })
+          );
         }
       }
     } else {
@@ -148,6 +185,65 @@ const ValidationWizard = () => {
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const newData = await getData(`${process.env.REACT_APP_API_URL}/projects/find-by-id/${id}`);
+        console.log(newData);
+
+        if (newData.success) {
+          setClientInfo({
+            firstName: newData.data.firstName,
+            lastName: newData.data.lastName,
+            projectType: newData.data.projectType,
+            companyName: newData.data.companyName,
+            companyOverview: newData.data.companyOverview
+          });
+          setProjectInfo({
+            projectTitle: newData.data.projectTitle,
+            publishDate: newData.data.publishDate,
+            category: newData.data.category,
+            projectOverview: newData.data.projectOverview,
+            projectChallenge: newData.data.projectChallenge,
+            projectConcept: newData.data.projectConcept,
+            projectSolution: newData.data.projectSolution
+          });
+          setProjectImages(newData.data.projectImages || []);
+          setCarouselImages(newData.data.carouselImages || []);
+          setBannerImages(newData.data.bannerImages || []);
+          setIconImages(newData.data.iconImages || []);
+        } else {
+          setClientInfo({
+            firstName: ' ',
+            lastName: ' ',
+            projectType: ' ',
+            companyName: ' ',
+            companyOverview: ' '
+          });
+          setProjectInfo({
+            projectTitle: ' ',
+            publishDate: ' ',
+            category: ' ',
+            projectOverview: ' ',
+            projectChallenge: ' ',
+            projectConcept: ' ',
+            projectSolution: ' '
+          });
+          setProjectImages({ projectImages: null });
+          setCarouselImages({ carouselImages: null });
+          setBannerImages({ bannerImages: null });
+          setIconImages({ iconImages: null });
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    if (id) {
+      fetchData();
+    }
+  }, [id]);
 
   return (
     <MainCard title="Add Project">

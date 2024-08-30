@@ -10,7 +10,7 @@ import * as yup from 'yup';
 // project-imports
 import AnimateButton from 'components/@extended/AnimateButton';
 import SingleFileUpload from 'components/third-party/dropzone/SingleFile';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const validationSchema = yup.object({
   title: yup.string().required('Banner Text is required'),
@@ -61,8 +61,9 @@ const BasicInfo = ({ basicInfo, setBasicInfo, handleNext, setErrorIndex }) => {
       sub1024x589: basicInfo.sub1024x589 || null,
       sub768x442: basicInfo.sub768x442 || null,
       sub300x173: basicInfo.sub300x173 || null,
-      files: null
+      files: []
     },
+    enableReinitialize:true,
     validationSchema,
     onSubmit: (values) => {
       setBasicInfo({
@@ -103,6 +104,15 @@ const BasicInfo = ({ basicInfo, setBasicInfo, handleNext, setErrorIndex }) => {
       [name]: images
     }));
   };
+
+  useEffect(() => {
+    if (basicInfo) {
+      setMain1259x724(basicInfo.main1259x724);
+      setSub1024x589(basicInfo.sub1024x589);
+      setSub768x442(basicInfo.sub768x442);
+      setSub300x173(basicInfo.sub300x173);
+    }
+  }, [basicInfo]);
 
   return (
     <>

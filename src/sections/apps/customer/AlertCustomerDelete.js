@@ -6,6 +6,8 @@ import { Button, Dialog, DialogContent, Stack, Typography } from '@mui/material'
 // project-imports
 import Avatar from 'components/@extended/Avatar';
 import { PopupTransition } from 'components/@extended/Transitions';
+import { dispatch } from 'store';
+import { openSnackbar } from 'store/reducers/snackbar';
 
 // assets
 import { Trash } from 'iconsax-react';
@@ -50,6 +52,37 @@ export default function AlertCustomerDelete({ title, open, handleClose, delete1,
                 const response = deleteData(`${process.env.REACT_APP_API_URL}projects/${title}`);
                 if (response.success) {
                   setDelete(delete1 + 1);
+                  dispatch(
+                    openSnackbar({
+                      open: true,
+                      message: 'Data deleted successfully.',
+                      variant: 'alert',
+                      // anchorOrigin: {
+                      //   vertical: 'top',
+                      //   horizontal: 'right'
+                      // },
+                      alert: {
+                        color: 'success'
+                      },
+                      close: false
+                    })
+                  );
+                } else {
+                  dispatch(
+                    openSnackbar({
+                      open: true,
+                      message: 'Failed to delete data. Please try again.',
+                      variant: 'alert',
+                      // anchorOrigin: {
+                      //   vertical: 'top',
+                      //   horizontal: 'right'
+                      // },
+                      alert: {
+                        color: 'error'
+                      },
+                      close: false
+                    })
+                  );
                 }
                 handleClose(true);
               }}

@@ -8,9 +8,6 @@ import { List, ListItemText, ListItem } from '@mui/material';
 import { DropzopType } from 'config';
 import IconButton from 'components/@extended/IconButton';
 
-// utils
-import getDropzoneData from 'utils/getDropzoneData';
-
 // assets
 import { CloseCircle, Document } from 'iconsax-react';
 
@@ -20,6 +17,7 @@ export default function FilesPreview({ showList = false, files, onRemove, type }
   const theme = useTheme();
   const hasFile = files.length > 0;
   const layoutType = type;
+  console.log('Files Name', files);
 
   return (
     <List
@@ -30,12 +28,13 @@ export default function FilesPreview({ showList = false, files, onRemove, type }
       }}
     >
       {files.map((file, index) => {
-        const { key, name, size, preview, type } = getDropzoneData(file, index);
+        // Assuming file contains the necessary data directly
+        const { preview, type: fileType } = file; // Extract preview and type
 
         if (showList) {
           return (
             <ListItem
-              key={key}
+              key={index}
               sx={{
                 p: 0,
                 m: 0.5,
@@ -49,8 +48,16 @@ export default function FilesPreview({ showList = false, files, onRemove, type }
                 overflow: 'hidden'
               }}
             >
-              {type?.includes('image') && <img alt="preview" src={preview} style={{ width: '100%' }} />}
-              {!type?.includes('image') && <Document variant="Bold" style={{ width: '100%', fontSize: '1.5rem' }} />}
+              {fileType?.includes('image') && (
+                <img 
+                  alt="preview" 
+                  src={preview} 
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                />
+              )}
+              {!fileType?.includes('image') && (
+                <Document variant="Bold" style={{ width: '100%', fontSize: '1.5rem' }} />
+              )}
 
               {onRemove && (
                 <IconButton
@@ -78,20 +85,19 @@ export default function FilesPreview({ showList = false, files, onRemove, type }
 
         return (
           <ListItem
-            key={key}
+            key={index}
             sx={{
               my: 1,
               px: 2,
               py: 0.75,
               borderRadius: 0.75,
-              border: (theme) => `solid 1px ${theme.palette.divider}`
+              border: `solid 1px ${theme.palette.divider}`
             }}
           >
             <Document variant="Bold" style={{ width: '30px', height: '30px', fontSize: '1.15rem', marginRight: 4 }} />
 
             <ListItemText
-              primary={typeof file === 'string' ? file : name}
-              secondary={typeof file === 'string' ? '' : size}
+              primary={typeof file === 'string' ? file : file.path}
               primaryTypographyProps={{ variant: 'subtitle2' }}
               secondaryTypographyProps={{ variant: 'caption' }}
             />

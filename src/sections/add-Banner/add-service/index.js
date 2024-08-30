@@ -10,6 +10,8 @@ import Review from './Review';
 import MainCard from 'components/MainCard';
 import AnimateButton from 'components/@extended/AnimateButton';
 import { postData } from 'utils/clientFunctions';
+import { dispatch } from 'store';
+import { openSnackbar } from 'store/reducers/snackbar';
 
 // step options
 const steps = ['Primary Image', 'Secondary Image', 'Confirmation'];
@@ -52,9 +54,44 @@ const AddBanners = () => {
     if (activeStep === steps.length - 1) {
       const response = await postData(`${process.env.REACT_APP_API_URL}/home-banner`, combinedData);
       console.log(response);
+      if (response.success) {
+        dispatch(
+          openSnackbar({
+            open: true,
+            message: 'Banner added successfully.',
+            variant: 'alert',
+            // anchorOrigin: {
+            //   vertical: 'top',
+            //   horizontal: 'right'
+            // },
+            alert: {
+              color: 'success'
+            },
+            close: false
+          })
+        );
+      } else {
+        dispatch(
+          openSnackbar({
+            open: true,
+            message: 'Failed to add banner. Please try again.',
+            variant: 'alert',
+            // anchorOrigin: {
+            //   vertical: 'top',
+            //   horizontal: 'right'
+            // },
+            alert: {
+              color: 'error'
+            },
+            close: false
+          })
+        );
+      }
 
       setActiveStep(activeStep + 1);
     } else {
+      console.log(basicInfo, additionalInfo);
+
       setActiveStep(activeStep + 1);
     }
 

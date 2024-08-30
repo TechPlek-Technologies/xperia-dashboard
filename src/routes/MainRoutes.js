@@ -8,18 +8,23 @@ import AuthGuard from 'utils/route-guard/AuthGuard';
 import TeamPage from 'pages/team';
 import ProjectPage from 'pages/projects';
 import AddProjects from 'pages/projects/add-project';
+import UpdateProjects from 'pages/projects/update-project';
 import ServicesPage from 'pages/services';
 import XperiaGroup from 'pages/about/XperiaGroup';
 import XperiaAlive from 'pages/about/XperiaAlive';
 import PencilBox from 'pages/about/PencilBox';
 import AwardsPage from 'pages/awards';
 import BlogPage from 'pages/blogs';
+import NewBlog from 'pages/blogs/NewBlog';
+import UpdateBlog from 'pages/blogs/UpdateBlog';
 import AddTeams from 'pages/team/add-team';
+import UpdateTeams from 'pages/team/update-team';
 import AddAward from 'pages/awards/add-awards';
+import UpdateAward from 'pages/awards/update-awards';
 import SettingsPage from 'pages/settings';
 import HomePage from 'pages/home';
 import AddBanner from 'pages/home/add-banner';
-import NewBlog from 'pages/blogs/NewBlog';
+import UpdateBanner from 'pages/home/update-banner';
 import OOhService from 'pages/services/ooh-service';
 import MultiPlexService from 'pages/services/multiplex-service';
 import CinemaAdvertising from 'pages/services/cinema-advertising';
@@ -57,6 +62,10 @@ const MainRoutes = {
           element: <AddBanner />
         },
         {
+          path: 'update-banner/:title',
+          element: <UpdateBanner />
+        },
+        {
           path: 'xperia-group',
           element: <XperiaGroup title={'Xperia Group'} />
         },
@@ -77,12 +86,20 @@ const MainRoutes = {
           element: <AddTeams />
         },
         {
+          path: 'update-team/:id',
+          element: <UpdateTeams />
+        },
+        {
           path: 'awards',
           element: <AwardsPage />
         },
         {
           path: 'add-award',
           element: <AddAward />
+        },
+        {
+          path: 'update-award/:id',
+          element: <UpdateAward />
         },
         {
           path: 'projects',
@@ -92,10 +109,13 @@ const MainRoutes = {
           path: 'settings',
           element: <SettingsPage />
         },
-
         {
           path: 'add-project',
           element: <AddProjects />
+        },
+        {
+          path: 'update-project/:id',
+          element: <UpdateProjects />
         },
         {
           path: 'services',
@@ -136,6 +156,10 @@ const MainRoutes = {
         {
           path: 'add-blogs',
           element: <NewBlog title={'New Blog'} />
+        },
+        {
+          path: 'update-blog/:id',
+          element: <UpdateBlog title={'Update Blog'} />
         },
         {
           path: 'blog-list',

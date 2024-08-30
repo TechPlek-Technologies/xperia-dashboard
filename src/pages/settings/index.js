@@ -4,6 +4,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 // third-party
+
 // project-imports
 import MainCard from 'components/MainCard';
 import SingleFileUpload from 'components/third-party/dropzone/SingleFile';
@@ -11,6 +12,8 @@ import { Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { useEffect, useState } from 'react';
 import { getData, postData } from 'utils/clientFunctions';
+import { dispatch } from 'store';
+import { openSnackbar } from 'store/reducers/snackbar';
 
 // ==============================|| VALIDATION SCHEMAS ||============================== //
 const imageUploadValidationSchema = Yup.object({
@@ -101,7 +104,37 @@ const SettingsPage = () => {
               console.log('response', response);
               if (response.success) {
                 setSubmitting(false);
-              }
+                dispatch(
+                  openSnackbar({
+                    open: true,
+                    message: 'Images uploaded successfully.',
+                    variant: 'alert',
+                    // anchorOrigin: {
+                    //   vertical: 'top',
+                    //   horizontal: 'right'
+                    // },
+                    alert: {
+                      color: 'success'
+                    },
+                    close: false
+                  })
+                );
+              }elsep
+              dispatch(
+                openSnackbar({
+                  open: true,
+                  message: 'Failed to upload images. Please try again.',
+                  variant: 'alert',
+                  // anchorOrigin: {
+                  //   vertical: 'top',
+                  //   horizontal: 'right'
+                  // },
+                  alert: {
+                    color: 'error'
+                  },
+                  close: false
+                })
+              );
             }}
           >
             {({ setFieldValue, values, errors, touched }) => (
@@ -200,6 +233,37 @@ const SettingsPage = () => {
               console.log('response', response);
               if (response.success) {
                 setSubmitting(false);
+                dispatch(
+                  openSnackbar({
+                    open: true,
+                    message: 'Contact details added successfully.',
+                    variant: 'alert',
+                    // anchorOrigin: {
+                    //   vertical: 'top',
+                    //   horizontal: 'right'
+                    // },
+                    alert: {
+                      color: 'success'
+                    },
+                    close: false
+                  })
+                );
+              }else{
+                dispatch(
+                  openSnackbar({
+                    open: true,
+                    message: 'Failed to add contact details. Please try again.',
+                    variant: 'alert',
+                    // anchorOrigin: {
+                    //   vertical: 'top',
+                    //   horizontal: 'right'
+                    // },
+                    alert: {
+                      color: 'error'
+                    },
+                    close: false
+                  })
+                );
               }
             }}
           >
@@ -282,6 +346,37 @@ const SettingsPage = () => {
               console.log('response', response);
               if (response.success) {
                 setSubmitting(false);
+                dispatch(
+                  openSnackbar({
+                    open: true,
+                    message: 'Social media details added successfully.',
+                    variant: 'alert',
+                    // anchorOrigin: {
+                    //   vertical: 'top',
+                    //   horizontal: 'right'
+                    // },
+                    alert: {
+                      color: 'success'
+                    },
+                    close: false
+                  })
+                );
+              }else{
+                dispatch(
+                  openSnackbar({
+                    open: true,
+                    message: 'Failed to add social media details. Please try again.',
+                    variant: 'alert',
+                    // anchorOrigin: {
+                    //   vertical: 'top',
+                    //   horizontal: 'right'
+                    // },
+                    alert: {
+                      color: 'error'
+                    },
+                    close: false
+                  })
+                );
               }
             }}
           >
