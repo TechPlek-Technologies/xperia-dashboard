@@ -63,7 +63,7 @@ const BasicInfo = ({ basicInfo, setBasicInfo, handleNext, setErrorIndex }) => {
       sub300x173: basicInfo.sub300x173 || null,
       files: []
     },
-    enableReinitialize:true,
+    enableReinitialize: true,
     validationSchema,
     onSubmit: (values) => {
       setBasicInfo({
