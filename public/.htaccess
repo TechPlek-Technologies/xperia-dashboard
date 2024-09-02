@@ -1,0 +1,22 @@
+<IfModule mod_rewrite.c>
+
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-l
+  RewriteRule . /index.html [L]
+ 
+
+</IfModule>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Redirect to www if not already present
+  RewriteCond %{HTTP_HOST} ^www\.dashboard.xperiagroup\.in [NC]
+  RewriteRule ^(.*)$ http://dashboard.xperiagroup.in/$1 [R=301,L]
+
+  # Other rewrite rules...
+</IfModule>
