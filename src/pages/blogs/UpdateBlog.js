@@ -113,7 +113,7 @@ const NewBlog = ({ title }) => {
     };
 
     fetchData();
-  }, [id]);
+  }, []);
 
   const handleBannerImageChange = (image) => {
     setImage(image);
