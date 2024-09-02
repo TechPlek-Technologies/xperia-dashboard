@@ -139,7 +139,7 @@ const ValidationWizard = () => {
           category: projectInfo.category,
           homepage: clientInfo.homepage ? true : false
         };
-      
+
         const response = await uploadProject(id, projectDetails, iconImages, bannerImages, projectImages, carouselImages);
         if (response.success) {
           setActiveStep(activeStep + 1);

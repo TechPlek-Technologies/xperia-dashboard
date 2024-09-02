@@ -119,7 +119,8 @@ const SettingsPage = () => {
                     close: false
                   })
                 );
-              }elsep
+              }
+              elsep;
               dispatch(
                 openSnackbar({
                   open: true,
@@ -248,7 +249,7 @@ const SettingsPage = () => {
                     close: false
                   })
                 );
-              }else{
+              } else {
                 dispatch(
                   openSnackbar({
                     open: true,
@@ -361,7 +362,7 @@ const SettingsPage = () => {
                     close: false
                   })
                 );
-              }else{
+              } else {
                 dispatch(
                   openSnackbar({
                     open: true,

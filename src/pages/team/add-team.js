@@ -30,7 +30,7 @@ function AddTeams() {
       name: teamData.name || '',
       designation: teamData.designation || '',
       description: teamData.description || '',
-      profileImage: teamData.profileImage || null,
+      profileImage: teamData.profileImage || null
       // files: []
     },
     validationSchema,

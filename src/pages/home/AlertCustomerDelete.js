@@ -56,7 +56,8 @@ export default function AlertCustomerDelete({ title, open, handleClose, delete1,
               autoFocus
             >
               Delete
-            </Button>``
+            </Button>
+            ``
           </Stack>
         </Stack>
       </DialogContent>

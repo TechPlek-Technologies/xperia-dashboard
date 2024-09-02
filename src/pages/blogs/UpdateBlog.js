@@ -16,10 +16,13 @@ import { useParams } from 'react-router';
 const validationSchema = yup.object({
   blogTitle: yup.string().required('Title is required'),
   description: yup.string().required('Description is required'),
-  bannerImage: yup.object().shape({
-    url: yup.string().required('Banner image URL is required'),
-    name: yup.string().required('Banner image name is required'),
-  }).required('Banner image is required'),
+  bannerImage: yup
+    .object()
+    .shape({
+      url: yup.string().required('Banner image URL is required'),
+      name: yup.string().required('Banner image name is required')
+    })
+    .required('Banner image is required'),
   category: yup.string().required('Category is required'),
   slug: yup.string().required('Slug is required')
 });
@@ -87,7 +90,7 @@ const NewBlog = ({ title }) => {
             description: newData.data.description,
             bannerImage: newData.data.bannerImage,
             category: newData.data.category,
-            slug: newData.data.slug ,
+            slug: newData.data.slug,
             mainContent: newData.data.mainContent
           });
           setValue(newData.data.mainContent || '');

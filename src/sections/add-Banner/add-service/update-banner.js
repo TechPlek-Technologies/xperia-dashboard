@@ -49,8 +49,7 @@ const UpdateBanners = () => {
   const handleNext = async () => {
     const combinedData = {
       ...basicInfo,
-      ...additionalInfo,
-      
+      ...additionalInfo
     };
 
     if (activeStep === steps.length - 1) {
@@ -105,35 +104,34 @@ const UpdateBanners = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const decodedTitle = decodeURIComponent(title);      
+        const decodedTitle = decodeURIComponent(title);
         const newData = await getData(`${process.env.REACT_APP_API_URL}/home-banner/find-by-title/${decodedTitle}`);
         console.log(newData);
-        
+
         if (newData.success) {
           setBasicInfo({
-            title:newData.data.title,
-            main1259x724:newData.data.main1259x724,
-            sub1024x589:newData.data.sub1024x589,
-            sub768x442:newData.data.sub768x442,
-            sub300x173:newData.data.sub300x173,
+            title: newData.data.title,
+            main1259x724: newData.data.main1259x724,
+            sub1024x589: newData.data.sub1024x589,
+            sub768x442: newData.data.sub768x442,
+            sub300x173: newData.data.sub300x173
           });
           setAdditionalInfo({
             banner541x724: newData.data.banner541x724,
             banner224x300: newData.data.banner224x300
-          })
+          });
         } else {
           setBasicInfo({
-            title:' ',
-            main1259x724:' ',
-            sub1024x589:' ',
-            sub768x442:' ',
-            sub300x173:' ',
-
+            title: ' ',
+            main1259x724: ' ',
+            sub1024x589: ' ',
+            sub768x442: ' ',
+            sub300x173: ' '
           });
           setAdditionalInfo({
             banner541x724: ' ',
             banner224x300: ' '
-          })
+          });
         }
       } catch (error) {
         console.error('Error fetching data:', error);

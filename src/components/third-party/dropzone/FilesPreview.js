@@ -49,15 +49,9 @@ export default function FilesPreview({ showList = false, files, onRemove, type }
               }}
             >
               {fileType?.includes('image') && (
-                <img 
-                  alt="preview" 
-                  src={preview} 
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
-                />
+                <img alt="preview" src={preview} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               )}
-              {!fileType?.includes('image') && (
-                <Document variant="Bold" style={{ width: '100%', fontSize: '1.5rem' }} />
-              )}
+              {!fileType?.includes('image') && <Document variant="Bold" style={{ width: '100%', fontSize: '1.5rem' }} />}
 
               {onRemove && (
                 <IconButton

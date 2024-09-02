@@ -34,21 +34,20 @@ const MultiFileUpload = ({ error, showList = false, files, type, setFieldValue, 
       for (const file of acceptedFiles) {
         await addNewFilesLocal(file);
       }
-    
+
       // Handle setting the field value with the updated files
-      const updatedFiles = acceptedFiles.map((file) => 
+      const updatedFiles = acceptedFiles.map((file) =>
         Object.assign(file, {
           preview: URL.createObjectURL(file)
         })
       );
-    
+
       if (files) {
         setFieldValue('files', [...files, ...updatedFiles]);
       } else {
         setFieldValue('files', updatedFiles);
       }
     }
-    
   });
 
   const onRemoveAll = () => {

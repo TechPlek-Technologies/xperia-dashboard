@@ -177,7 +177,7 @@ const ProjectPage = () => {
   const handleAdd = () => {
     navigate('/add-team', { replace: true });
   };
-  
+
   const handleUpdate = (data) => {
     if (data && data.id) {
       navigate(`/update-team/${data.id}`, { replace: true });
