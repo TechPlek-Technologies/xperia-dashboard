@@ -215,6 +215,8 @@ export default function ImagesForm({
 
 ImagesForm.propTypes = {
   bannerImages: PropTypes.object,
+  carouselImages: PropTypes.object,
+  projectImages: PropTypes.object,
   iconImages: PropTypes.object,
   setProjectImages: PropTypes.func,
   setCarouselImages: PropTypes.func,
