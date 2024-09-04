@@ -40,7 +40,9 @@ function Editor({ slug, titleText, aboutData, setAboutData, handleSubmit }) {
         aboutImage: image
       });
 
-      await handleSubmit(aboutData);
+      const data = { name: values.title, description: values.description, slug: slug, aboutImage: image };
+
+      await handleSubmit(data);
     }
   });
 
