@@ -87,22 +87,22 @@ const support = {
           id: 'multiplex',
           title: (
             <>
-              <FormattedMessage id="multiplex" />
+              <FormattedMessage id="multiplexCinema" />
             </>
           ),
           type: 'item',
           url: 'multiplex'
         },
-        {
-          id: 'cinema-advertising',
-          title: (
-            <>
-              <FormattedMessage id="cinema-advertising" />
-            </>
-          ),
-          type: 'item',
-          url: 'cinema-advertising'
-        },
+        // {
+        //   id: 'cinema-advertising',
+        //   title: (
+        //     <>
+        //       <FormattedMessage id="cinema-advertising" />
+        //     </>
+        //   ),
+        //   type: 'item',
+        //   url: 'cinema-advertising'
+        // },
         {
           id: 'events-and-promotions',
           title: (
