@@ -42,8 +42,13 @@ function AddTeams() {
         description: values.description,
         profileImage: image
       });
-      console.log(teamData);
-      const response = await postData(`${process.env.REACT_APP_API_URL}/teams`, teamData);
+      const data = {
+        name: values.name,
+        designation: values.designation,
+        description: values.description,
+        profileImage: image
+      };
+      const response = await postData(`${process.env.REACT_APP_API_URL}/teams`, data);
       console.log(response);
       if (response.success) {
         dispatch(
