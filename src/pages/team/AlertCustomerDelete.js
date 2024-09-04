@@ -10,10 +10,13 @@ import { PopupTransition } from 'components/@extended/Transitions';
 // assets
 import { Trash } from 'iconsax-react';
 import { deleteData } from 'utils/clientFunctions';
+import { useDispatch } from 'react-redux';
+import { openSnackbar } from 'store/reducers/snackbar';
 
 // ==============================|| CUSTOMER - DELETE ||============================== //
 
 export default function AlertCustomerDelete({ title, open, handleClose, delete1, setDelete }) {
+  const dispatch = useDispatch();
   return (
     <Dialog
       open={open}
@@ -46,9 +49,24 @@ export default function AlertCustomerDelete({ title, open, handleClose, delete1,
               color="error"
               variant="contained"
               onClick={() => {
-                const response = deleteData(`${process.env.REACT_APP_API_URL}/team/${title}`);
+                const response = deleteData(`${process.env.REACT_APP_API_URL}/teams/${title}`);
                 if (response.success) {
                   setDelete(delete1 + 1);
+                  dispatch(
+                    openSnackbar({
+                      open: true,
+                      message: 'Team details added successfully.',
+                      variant: 'alert',
+                      // anchorOrigin: {
+                      //   vertical: 'top',
+                      //   horizontal: 'right'
+                      // },
+                      alert: {
+                        color: 'success'
+                      },
+                      close: false
+                    })
+                  );
                 }
                 handleClose(true);
               }}

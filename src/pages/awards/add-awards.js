@@ -41,7 +41,8 @@ function AddAward() {
         title: values.title,
         year: values.year,
         description: values.description,
-        awardImage: image
+        awardImage: image,
+        category: values.span
       });
 
       console.log(awardData);
