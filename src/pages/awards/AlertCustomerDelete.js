@@ -10,10 +10,13 @@ import { PopupTransition } from 'components/@extended/Transitions';
 // assets
 import { Trash } from 'iconsax-react';
 import { deleteData } from 'utils/clientFunctions';
+import { openSnackbar } from 'store/reducers/snackbar';
+import { useDispatch } from 'react-redux';
 
 // ==============================|| CUSTOMER - DELETE ||============================== //
 
 export default function AlertCustomerDelete({ title, open, handleClose, delete1, setDelete }) {
+  const dispatch = useDispatch();
   return (
     <Dialog
       open={open}
@@ -49,6 +52,21 @@ export default function AlertCustomerDelete({ title, open, handleClose, delete1,
                 const response = deleteData(`${process.env.REACT_APP_API_URL}/awards/${title}`);
                 if (response.success) {
                   setDelete(delete1 + 1);
+                  dispatch(
+                    openSnackbar({
+                      open: true,
+                      message: 'Award Deleted.',
+                      variant: 'alert',
+                      // anchorOrigin: {
+                      //   vertical: 'top',
+                      //   horizontal: 'right'
+                      // },
+                      alert: {
+                        color: 'success'
+                      },
+                      close: false
+                    })
+                  );
                 }
                 handleClose(true);
               }}

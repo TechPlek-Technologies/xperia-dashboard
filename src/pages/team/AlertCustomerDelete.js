@@ -55,7 +55,7 @@ export default function AlertCustomerDelete({ title, open, handleClose, delete1,
                   dispatch(
                     openSnackbar({
                       open: true,
-                      message: 'Team details added successfully.',
+                      message: 'Team Member Deleted.',
                       variant: 'alert',
                       // anchorOrigin: {
                       //   vertical: 'top',
