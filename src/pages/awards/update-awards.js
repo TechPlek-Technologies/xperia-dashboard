@@ -20,19 +20,22 @@ const validationSchema = yup.object({
   title: yup.string().required('Title is required'),
   year: yup.string().required('Year is required'),
   description: yup.string().required('Description is required'),
-  awardImage: yup.mixed().required('Award image is required')
+  awardImage: yup.mixed().required('Award image is required'),
+  span: yup.string().required('Category is required')
 });
 
 function AddAward() {
   const [awardData, setAwardData] = useState({});
   const [image, setImage] = useState(null);
   const { id } = useParams();
+  console.log('awardData', awardData);
 
   const formik = useFormik({
     initialValues: {
       title: awardData.title || '',
       year: awardData.designation || '',
       description: awardData.description || '',
+      span: awardData.category || '',
       awardImage: image
       // files: []
     },
@@ -40,12 +43,12 @@ function AddAward() {
     validationSchema,
     onSubmit: async (values) => {
       // Update the basicInfo state with all form values including bannerImages
-
       const payload = {
         id: awardData.id,
         title: values.title,
         year: values.year,
         description: values.description,
+        category: values.span,
         awardImage: image
       };
 
@@ -101,14 +104,15 @@ function AddAward() {
     const fetchData = async () => {
       try {
         const newData = await getData(`${process.env.REACT_APP_API_URL}/awards/${id}`);
-        console.log(newData);
 
         if (newData.success) {
+          console.log('newData.data', newData.data);
           setAwardData({
             id: newData.data.id,
             title: newData.data.title,
             description: newData.data.description,
-            designation: newData.data.year
+            designation: newData.data.year,
+            category: newData.data.category
           });
           setImage(newData.data.awardImage);
         } else {
@@ -116,7 +120,8 @@ function AddAward() {
             id: ' ',
             title: ' ',
             description: ' ',
-            designation: ' '
+            designation: ' ',
+            category: ''
           });
           setImage(null);
         }
@@ -127,7 +132,6 @@ function AddAward() {
 
     fetchData();
   }, [id]);
-
   return (
     <form onSubmit={formik.handleSubmit} id="validation-forms">
       <Grid container spacing={3}>
@@ -172,6 +176,7 @@ function AddAward() {
                     id="span"
                     name="span"
                     value={formik.values.span}
+                    // defaultValue={formik.values.span}
                     onChange={formik.handleChange}
                     error={formik.touched.span && Boolean(formik.errors.span)}
                     // helperText={formik.touched.span && formik.errors.span}
