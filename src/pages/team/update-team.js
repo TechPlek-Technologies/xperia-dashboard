@@ -43,7 +43,7 @@ function AddTeams() {
           dispatch(
             openSnackbar({
               open: true,
-              message: 'Team details added successfully.',
+              message: 'Team details Updated successfully.',
               variant: 'alert',
               alert: {
                 color: 'success'

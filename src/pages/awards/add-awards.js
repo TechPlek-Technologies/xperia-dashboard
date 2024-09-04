@@ -45,8 +45,15 @@ function AddAward() {
         category: values.span
       });
 
+      const data = {
+        title: values.title,
+        year: values.year,
+        description: values.description,
+        awardImage: image,
+        category: values.span
+      };
       console.log(awardData);
-      const response = await postData(`${process.env.REACT_APP_API_URL}/awards`, awardData);
+      const response = await postData(`${process.env.REACT_APP_API_URL}/awards`, data);
       console.log(response);
       if (response.success) {
         dispatch(
