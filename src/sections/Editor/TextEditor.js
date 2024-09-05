@@ -20,7 +20,7 @@ const validationSchema = yup.object({
 
 function Editor({ slug, titleText, aboutData, setAboutData, handleSubmit }) {
   const [image, setImage] = useState(aboutData.aboutImage || null);
-  console.log('aboutData');
+  console.log('aboutData', aboutData);
 
   const formik = useFormik({
     initialValues: {
@@ -54,6 +54,8 @@ function Editor({ slug, titleText, aboutData, setAboutData, handleSubmit }) {
       aboutImage: images
     }));
   };
+
+  console.log(formik.initialValues)
   return (
     <form onSubmit={formik.handleSubmit} id="validation-forms">
       <Grid container spacing={3}>

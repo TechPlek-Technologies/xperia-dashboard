@@ -26,13 +26,16 @@ const DropzoneWrapper = styled('div')(({ theme }) => ({
 
 // ==============================|| UPLOAD - MULTIPLE FILE ||============================== //
 
-const MultiFileUpload = ({ error, showList = false, files, type, setFieldValue, sx, onUpload }) => {
+const MultiFileUpload = ({ error, showList = false, files, type, setFieldValue, sx, onUpload, setImages }) => {
   const { getRootProps, getInputProps, isDragActive, isDragReject, fileRejections } = useDropzone({
     multiple: true,
     onDrop: async (acceptedFiles) => {
       // Use forEach instead of map because you are not returning a new array
       for (const file of acceptedFiles) {
-        await addNewFilesLocal(file);
+        const response = await addNewFilesLocal(file);
+        if (response.success) {
+          setImages((prevImages) => [...prevImages, { name: response.name, url: response.url }]);
+        }
       }
 
       // Handle setting the field value with the updated files
@@ -52,11 +55,13 @@ const MultiFileUpload = ({ error, showList = false, files, type, setFieldValue, 
 
   const onRemoveAll = () => {
     setFieldValue('files', null);
+    setImages([]);
   };
 
   const onRemove = (file) => {
     const filteredItems = files && files.filter((_file) => _file !== file);
     setFieldValue('files', filteredItems);
+    setImages(filteredItems);
   };
 
   return (
@@ -120,7 +125,9 @@ MultiFileUpload.propTypes = {
   setFieldValue: PropTypes.func,
   onUpload: PropTypes.func,
   sx: PropTypes.object,
-  type: PropTypes.string
+  type: PropTypes.string,
+  setImages: PropTypes.func.isRequired,
+  images: PropTypes.object
 };
 
 export default MultiFileUpload;

@@ -30,7 +30,8 @@ export default function ImagesForm({
 }) {
   const [list, setList] = useState(false);
   const [list1, setList1] = useState(false);
-  console.log(carouselImages, projectImages);
+
+  console.log('carouselImages', carouselImages);
   return (
     <>
       <Grid container spacing={3}>
@@ -140,8 +141,10 @@ export default function ImagesForm({
                           onUpload={async () => {
                             // const response = await addNewFilesLocal(values.files);
                             // console.log(response);
-                            setProjectImages(values.files);
+                            // setProjectImages(values.files);
+                            console.log(projectImages);
                           }}
+                          setImages={setProjectImages}
                           error={touched.files && !!errors.files}
                         />
                         {touched.files && errors.files && (
@@ -192,8 +195,10 @@ export default function ImagesForm({
                           files={values.files}
                           error={touched.files && !!errors.files}
                           onUpload={() => {
-                            setCarouselImages(values.files);
+                            // setCarouselImages(values.files);
+                            console.log('carouselImages', carouselImages);
                           }}
+                          setImages={setCarouselImages}
                         />
                         {touched.files && errors.files && (
                           <FormHelperText error id="standard-weight-helper-text-password-login">

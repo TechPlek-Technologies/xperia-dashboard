@@ -89,16 +89,10 @@ const uploadProject = async (id, projectDetails, iconImages, bannerImages, proje
   data.category = projectDetails.category;
 
   // Handle project images
-  data.projectImages = projectImages.map((file, index) => ({
-    index,
-    file
-  }));
+  data.projectImages = projectImages;
 
   // Handle carousel images
-  data.carouselImages = carouselImages.map((file, index) => ({
-    index,
-    file
-  }));
+  data.carouselImages = carouselImages;
 
   // API call to upload project
   return await postData(`${process.env.REACT_APP_API_URL}/projects`, data);
@@ -110,8 +104,8 @@ const ValidationWizard = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [clientInfo, setClientInfo] = useState({});
   const [projectInfo, setProjectInfo] = useState({});
-  const [projectImages, setProjectImages] = useState(null);
-  const [carouselImages, setCarouselImages] = useState(null);
+  const [projectImages, setProjectImages] = useState([]);
+  const [carouselImages, setCarouselImages] = useState([]);
   const [bannerImages, setBannerImages] = useState(null);
   const [iconImages, setIconImages] = useState(null);
   const [errorIndex, setErrorIndex] = useState(null);
@@ -139,6 +133,7 @@ const ValidationWizard = () => {
           category: projectInfo.category,
           homepage: clientInfo.homepage ? true : false
         };
+        console.log(iconImages, bannerImages, projectImages, carouselImages);
 
         const response = await uploadProject(id, projectDetails, iconImages, bannerImages, projectImages, carouselImages);
         if (response.success) {
@@ -190,7 +185,7 @@ const ValidationWizard = () => {
     const fetchData = async () => {
       try {
         const newData = await getData(`${process.env.REACT_APP_API_URL}/projects/find-by-id/${id}`);
-        console.log(newData);
+        console.log('newData', newData);
 
         if (newData.success) {
           setClientInfo({
@@ -284,8 +279,8 @@ const ValidationWizard = () => {
                     setProjectInfo({});
                     setIconImages(null);
                     setBannerImages(null);
-                    setCarouselImages(null);
-                    setProjectImages(null);
+                    setCarouselImages([]);
+                    setProjectImages([]);
                     setActiveStep(0);
                   }}
                   sx={{ my: 3, ml: 1 }}
