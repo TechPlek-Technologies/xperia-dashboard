@@ -29,8 +29,7 @@ export default function FilesPreview({ showList = false, files, onRemove, type }
     >
       {files.map((file, index) => {
         // Assuming file contains the necessary data directly
-        const { preview, type: fileType } = file; // Extract preview and type
-
+        const { type: fileType } = file; // Extract preview and type
         if (showList) {
           return (
             <ListItem
@@ -48,9 +47,13 @@ export default function FilesPreview({ showList = false, files, onRemove, type }
                 overflow: 'hidden'
               }}
             >
-              {fileType?.includes('image') && (
-                <img alt="preview" src={preview} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              )}
+              {
+                <img
+                  alt="preview"
+                  src={`${process.env.REACT_APP_API_URL}${file.url}`}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+              }
               {!fileType?.includes('image') && <Document variant="Bold" style={{ width: '100%', fontSize: '1.5rem' }} />}
 
               {onRemove && (
