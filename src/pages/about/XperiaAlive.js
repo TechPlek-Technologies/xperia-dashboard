@@ -13,13 +13,14 @@ import { openSnackbar } from 'store/reducers/snackbar';
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const XperiaAlive = ({ title }) => {
-  const [aboutData, setAboutData] = useState({});
+  const [aboutData, setAboutData] = useState(null);
   const [key, setKey] = useState(0);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const newData = await getData(`${process.env.REACT_APP_API_URL}/about/find-by-slug/xperia-alive`);
-        console.log(newData);
+        console.log('newData', newData);
         if (newData.success) {
           setAboutData(newData.data);
         } else {
