@@ -13,7 +13,7 @@ import { DropzopType } from 'config';
 import RejectionFiles from './RejectionFiles';
 import PlaceholderContent from './PlaceholderContent';
 import FilesPreview from './FilesPreview';
-import { addNewFilesLocal } from 'utils/clientFunctions';
+import { addNewFilesLocal, removeFile } from 'utils/clientFunctions';
 
 const DropzoneWrapper = styled('div')(({ theme }) => ({
   outline: 'none',
@@ -26,7 +26,7 @@ const DropzoneWrapper = styled('div')(({ theme }) => ({
 
 // ==============================|| UPLOAD - MULTIPLE FILE ||============================== //
 
-const MultiFileUpload = ({ error, showList = false, files, type, setFieldValue, sx, onUpload, setImages }) => {
+const MultiFileUpload = ({ error, showList = false, files, type, setFieldValue, sx, onUpload, images, setImages }) => {
   const { getRootProps, getInputProps, isDragActive, isDragReject, fileRejections } = useDropzone({
     multiple: true,
     onDrop: async (acceptedFiles) => {
@@ -56,10 +56,12 @@ const MultiFileUpload = ({ error, showList = false, files, type, setFieldValue, 
   const onRemoveAll = () => {
     setFieldValue('files', null);
     setImages([]);
+    images && images.map(async (item) => await removeFile(item.name));
   };
 
   const onRemove = (file) => {
     const filteredItems = files && files.filter((_file) => _file !== file);
+    console.log('files', file);
     setFieldValue('files', filteredItems);
     setImages(filteredItems);
   };
