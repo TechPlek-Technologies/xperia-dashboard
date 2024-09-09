@@ -173,9 +173,9 @@ const NewBlog = ({ title }) => {
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                <MenuItem value="Category 1">Category 1</MenuItem>
-                <MenuItem value="Category 2">Category 2</MenuItem>
-                <MenuItem value="Category 3">Category 3</MenuItem>
+                <MenuItem value={'Creative'}>Creative</MenuItem>
+                <MenuItem value={'Social'}>Social</MenuItem>
+                <MenuItem value={'trending'}>Trending</MenuItem>
               </Select>
             </Stack>
           </Grid>
