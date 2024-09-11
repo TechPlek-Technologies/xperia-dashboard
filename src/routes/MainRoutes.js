@@ -33,6 +33,9 @@ import Music from 'pages/services/music';
 import CorporateFilms from 'pages/services/corporate-films';
 import CreativeRetainership from 'pages/services/creative-retainership';
 import ContentDesign from 'pages/services/Content-design';
+import TestimonialPage from 'pages/testimonial';
+import NewTestimonial from 'pages/testimonial/NewTestimonial';
+import UpdateTestimonial from 'pages/testimonial/UpdateTestimonial';
 
 const MaintenanceError = Loadable(lazy(() => import('pages/maintenance/error/404')));
 const MaintenanceError500 = Loadable(lazy(() => import('pages/maintenance/error/500')));
@@ -158,12 +161,24 @@ const MainRoutes = {
           element: <NewBlog title={'New Blog'} />
         },
         {
+          path: 'add-Testimonial',
+          element: <NewTestimonial title={'New Testimonial'} />
+        },
+        {
           path: 'update-blog/:id',
           element: <UpdateBlog title={'Update Blog'} />
         },
         {
           path: 'blog-list',
           element: <BlogPage />
+        },
+        {
+          path: 'testimonials',
+          element: <TestimonialPage />
+        },
+        {
+          path: 'update-testimonial/:id',
+          element: <UpdateTestimonial />
         }
       ]
     },

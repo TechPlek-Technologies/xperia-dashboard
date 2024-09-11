@@ -2,7 +2,7 @@
 import { FormattedMessage } from 'react-intl';
 
 // assets
-import { DocumentCode2, Slider, Setting2, TextBlock, MagicStar, Profile2User, Award } from 'iconsax-react';
+import { DocumentCode2, Slider, Setting2, TextBlock, MagicStar, Profile2User, Award, ProfileAdd } from 'iconsax-react';
 
 // icons
 const icons = {
@@ -12,7 +12,8 @@ const icons = {
   teams: Profile2User,
   project: MagicStar,
   blogs: TextBlock,
-  awards: Award
+  awards: Award,
+  speaker: ProfileAdd
 };
 
 // ==============================|| MENU ITEMS - SUPPORT ||============================== //
@@ -182,6 +183,13 @@ const support = {
       type: 'item',
       url: '/blog-list',
       icon: icons.blogs
+    },
+    {
+      id: 'testimonials',
+      title: <FormattedMessage id="testimonials" />,
+      type: 'item',
+      url: '/testimonials',
+      icon: icons.speaker
     },
     {
       id: 'settings',
