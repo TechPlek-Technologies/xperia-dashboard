@@ -32,6 +32,12 @@ const NewBlog = ({ title }) => {
   const [value, setValue] = useState('');
   const [image, setImage] = useState(null);
   const { id } = useParams();
+  const [iconImage, setIconImage] = useState(null);
+
+  const handleIconImageChange = (images) => {
+    setIconImage(images);
+    formik.setFieldValue('iconImage', images);
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -81,7 +87,7 @@ const NewBlog = ({ title }) => {
     const fetchData = async () => {
       try {
         const newData = await getData(`${process.env.REACT_APP_API_URL}/blogs/${id}`);
-        console.log(newData);
+        console.log('newData', newData);
 
         if (newData.success) {
           // Set initial values with API data
@@ -95,6 +101,7 @@ const NewBlog = ({ title }) => {
           });
           setValue(newData.data.mainContent || '');
           setImage(newData.data.bannerImage || null);
+          setIconImage(newData.data.bannerImage || null)
         } else {
           formik.setValues({
             blogTitle: '',
@@ -205,7 +212,24 @@ const NewBlog = ({ title }) => {
           </Grid>
 
           <Grid item xs={12}>
-            <InputLabel>Add Banner Image</InputLabel>
+            <InputLabel>Add Icon Image (939x569)</InputLabel>
+            <Stack spacing={1.0}>
+              <SingleFileUpload
+                id="iconImage"
+                name="iconImage"
+                images={iconImage}
+                setFieldValue={formik.setFieldValue}
+                setImages={handleIconImageChange}
+                file={formik.values.files}
+                error={formik.touched.iconImage && Boolean(formik.errors.iconImage)}
+                helperText={formik.touched.iconImage && formik.errors.iconImage}
+              />
+            </Stack>
+            {formik.touched.iconImage && formik.errors.iconImage && <FormHelperText error>{formik.errors.iconImage}</FormHelperText>}
+          </Grid>
+
+          <Grid item xs={12}>
+            <InputLabel>Add Banner Image (939x569)</InputLabel>
             <Stack spacing={1.5}>
               <SingleFileUpload
                 id={'bannerImage'}

@@ -130,7 +130,7 @@ const NewBlog = ({ title }) => {
           </Grid>
 
           <Grid item xs={12}>
-            <InputLabel>Add Icon Image</InputLabel>
+            <InputLabel>Add Icon Image (939x569)</InputLabel>
             <Stack spacing={1.0}>
               <SingleFileUpload
                 id="iconImage"
@@ -146,7 +146,7 @@ const NewBlog = ({ title }) => {
             {formik.touched.iconImage && formik.errors.iconImage && <FormHelperText error>{formik.errors.iconImage}</FormHelperText>}
           </Grid>
           <Grid item xs={12}>
-            <InputLabel>Add Banner Image</InputLabel>
+            <InputLabel>Add Banner Image (939x569)</InputLabel>
             <Stack spacing={1.0}>
               <SingleFileUpload
                 id="bannerImage"
