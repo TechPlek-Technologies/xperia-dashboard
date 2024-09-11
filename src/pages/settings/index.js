@@ -46,7 +46,8 @@ const SettingsPage = () => {
   const [contact, setContact] = useState({
     phoneNumber: '',
     email: '',
-    address: ''
+    address: '',
+    sidebar: ''
   });
   const [social, setSocial] = useState({
     instagram: '',
@@ -58,7 +59,7 @@ const SettingsPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await getData(`${process.env.REACT_APP_API_URL}/settings/all-settings`);
-
+      console.log('response', response);
       if (response.success && response.data && response.data.length > 0) {
         const data = response.data[0];
         setNavLogoImage(data.navbarLogo);
@@ -68,7 +69,8 @@ const SettingsPage = () => {
         setContact({
           phoneNumber: data.phoneNumber,
           email: data.email,
-          address: data.address
+          address: data.address,
+          sidebar: data.sidebar
         });
         setSocial({
           instagram: data.instagram,
@@ -224,7 +226,8 @@ const SettingsPage = () => {
             initialValues={{
               phoneNumber: contact.phoneNumber || '',
               email: contact.email || '',
-              address: contact.address || ''
+              address: contact.address || '',
+              sidebar: contact.sidebar || ''
             }}
             enableReinitialize={true}
             validationSchema={contactDetailsValidationSchema}
@@ -315,6 +318,21 @@ const SettingsPage = () => {
                           onChange={(e) => setFieldValue('address', e.target.value)}
                           error={touched.address && Boolean(errors.address)}
                           helperText={touched.address && errors.address}
+                        />
+                      </Stack>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Stack spacing={1}>
+                        <InputLabel>Sidebar Content</InputLabel>
+                        <Field
+                          as={TextField}
+                          id="sidebar"
+                          name="sidebar"
+                          placeholder="Sidebar Text"
+                          value={values.sidebar}
+                          onChange={(e) => setFieldValue('sidebar', e.target.value)}
+                          error={touched.sidebar && Boolean(errors.sidebar)}
+                          helperText={touched.sidebar && errors.sidebar}
                         />
                       </Stack>
                     </Grid>
