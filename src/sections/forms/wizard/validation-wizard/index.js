@@ -102,7 +102,14 @@ const uploadProject = async (id, projectDetails, iconImages, bannerImages, proje
 
 const ValidationWizard = () => {
   const [activeStep, setActiveStep] = useState(0);
-  const [clientInfo, setClientInfo] = useState({});
+  const [clientInfo, setClientInfo] = useState({
+    firstName: '',
+    lastName: '',
+    projectType: '',
+    companyName: '',
+    companyOverview: '',
+    homepage: false // Ensure this is properly set
+  });
   const [projectInfo, setProjectInfo] = useState({});
   const [projectImages, setProjectImages] = useState([]);
   const [carouselImages, setCarouselImages] = useState([]);
@@ -133,7 +140,6 @@ const ValidationWizard = () => {
           category: projectInfo.category,
           homepage: clientInfo.homepage ? true : false
         };
-        console.log(iconImages, bannerImages, projectImages, carouselImages);
 
         const response = await uploadProject(id, projectDetails, iconImages, bannerImages, projectImages, carouselImages);
         if (response.success) {
@@ -193,7 +199,8 @@ const ValidationWizard = () => {
             lastName: newData.data.lastName,
             projectType: newData.data.projectType,
             companyName: newData.data.companyName,
-            companyOverview: newData.data.companyOverview
+            companyOverview: newData.data.companyOverview,
+            homepage: newData.data.homepage
           });
           setProjectInfo({
             projectTitle: newData.data.projectTitle,

@@ -21,6 +21,7 @@ const validationSchema = yup.object({
 // ==============================|| VALIDATION WIZARD - ADDRESS  ||============================== //
 
 const ClientForm = ({ clientInfo, setClientInfo, handleNext, setErrorIndex }) => {
+  console.log('clientInfo', clientInfo);
   const formik = useFormik({
     initialValues: {
       firstName: clientInfo.firstName,
@@ -45,6 +46,7 @@ const ClientForm = ({ clientInfo, setClientInfo, handleNext, setErrorIndex }) =>
     }
   });
 
+  console.log('formik.values.homepage', formik.values.homepage);
   return (
     <>
       <Typography variant="h5" gutterBottom sx={{ mb: 2 }}>
@@ -136,7 +138,7 @@ const ClientForm = ({ clientInfo, setClientInfo, handleNext, setErrorIndex }) =>
           <Grid item xs={12}>
             <FormControlLabel
               control={
-                <Checkbox color="primary" id="homepage" name="homepage" value={formik.values.homepage} onChange={formik.handleChange} />
+                <Checkbox color="primary" id="homepage" name="homepage" checked={formik.values.homepage} onChange={formik.handleChange} />
               }
               label="Use this project on Homepage (max-8)"
             />
